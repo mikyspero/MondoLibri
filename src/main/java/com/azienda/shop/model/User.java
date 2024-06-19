@@ -5,6 +5,8 @@ import com.azienda.shop.utils.PasswordHasher;
 import javax.persistence.*;
 import java.security.NoSuchAlgorithmException;
 
+
+//CLASSE USER
 @Entity
 public class User
 {
