@@ -42,35 +42,28 @@ public abstract class AbstractService<T> {
     }
 
     public T insert(T toBeInserted) throws Exception {
-        return executeTransaction(() -> {
-            return dao.create(toBeInserted);
-        });
+        return executeTransaction(() -> dao.create(toBeInserted));
     }
 
     public T retrieveById(Integer id) throws Exception {
-       return executeTransaction( () -> {
-           return dao.findById(id);
-       });
+       return executeTransaction( () -> dao.findById(id));
     }
 
     public List<T> retrieveAll() throws Exception {
-        return executeTransaction( () -> {
-            return dao.findAll();
-        });
+        return executeTransaction( () -> dao.findAll());
     }
 
     public T updateElement(T toBeUpdated) throws Exception {
-      return executeTransaction( () -> {
-          return dao.update(toBeUpdated);
-      });
+      return executeTransaction( () -> dao.update(toBeUpdated));
     }
 
     public void delete(T toBeDeleted) throws Exception {
         try{
             manager.getTransaction().begin();
-            manager.getTransaction().rollback();
+            dao.delete(toBeDeleted);
             manager.getTransaction().commit();
         }catch (Exception e) {
+            manager.getTransaction().rollback();
             throw e;
         }
     }
