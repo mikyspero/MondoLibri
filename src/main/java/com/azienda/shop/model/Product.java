@@ -1,36 +1,106 @@
 package com.azienda.shop.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Product {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     private String name;
     private double price;
     private int quantity;
-    private String Description;
+    private String description;
+    private byte[] image;
+    private String language;
 
+    @ManyToOne
+    @JoinColumn(name = "id_author")
+    private Author author;
+
+    @ManyToOne
+    @JoinColumn(name = "id_genre")
+    private Genre genre;
+
+    @ManyToMany(mappedBy = "products")
+    private List<Cart> carts;
+
+    @OneToMany(mappedBy = "product")
+    private List<Purchase> purchases;
+
+
+    //COSTRUTTORE VUOTO
     public Product() {
     }
 
-    public Product(String description, int quantity, double price, String name) {
-        Description = description;
+    public Product(List<Purchase> purchases, List<Cart> carts, Genre genre, Author author, String language, byte[] image, String description, int quantity, double price, String name) {
+        this.purchases = purchases;
+        this.carts = carts;
+        this.genre = genre;
+        this.author = author;
+        this.language = language;
+        this.image = image;
+        this.description = description;
         this.quantity = quantity;
         this.price = price;
         this.name = name;
     }
 
+    public List<Purchase> getPurchases() {
+        return purchases;
+    }
+
+    public void setPurchases(List<Purchase> purchases) {
+        this.purchases = purchases;
+    }
+
+    public List<Cart> getCarts() {
+        return carts;
+    }
+
+    public void setCarts(List<Cart> carts) {
+        this.carts = carts;
+    }
+
+    public Genre getGenre() {
+        return genre;
+    }
+
+    public void setGenre(Genre genre) {
+        this.genre = genre;
+    }
+
+    public Author getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+        this.description = description;
     }
 
     public int getQuantity() {
@@ -55,17 +125,5 @@ public class Product {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", quantity=" + quantity +
-                ", Description='" + Description + '\'' +
-                '}';
     }
 }

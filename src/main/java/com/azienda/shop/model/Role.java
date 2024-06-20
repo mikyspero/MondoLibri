@@ -1,22 +1,40 @@
 package com.azienda.shop.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
-public enum Role {
-    ADMIN(0),
-    USER(1);
+public class Role {
+    @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    private Integer id;
+    private String nome;
 
-    private final int index;
+    @OneToMany(mappedBy = "role")
+    private List<User> users;
 
-    Role(int index) {
-        this.index = index;
+    //COSTRUTTORE PER HIBERNATE
+    public Role() {
     }
 
-    public int getIndex() {
-        return index;
+    public Role(List<User> users, String nome) {
+        this.users = users;
+        this.nome = nome;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 }

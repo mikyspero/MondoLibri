@@ -1,6 +1,6 @@
 package com.azienda.shop.dao;
 
-public interface DAO<T> {
+public interface DAOinterface<T> {
     /**
      * Creates a new entity in the data store.
      *

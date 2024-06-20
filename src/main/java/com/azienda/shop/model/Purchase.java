@@ -1,9 +1,6 @@
 package com.azienda.shop.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -11,20 +8,50 @@ public class Purchase {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Date purchase_date;
+
+    @ManyToOne
+    @JoinColumn(name = "id_user")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "id_product")
+    private Product product;
+
+
+    @Temporal(TemporalType.DATE)
+    private Date purchaseDate;
+
 
     public Purchase() {
     }
 
-    public Purchase(Date purchase_date) {
-        this.purchase_date = purchase_date;
+    public Purchase(Date purchaseDate, Product product, User user) {
+        this.purchaseDate = purchaseDate;
+        this.product = product;
+        this.user = user;
     }
 
-    public Date getPurchase_date() {
-        return purchase_date;
+    public Date getPurchaseDate() {
+        return purchaseDate;
     }
 
-    public void setPurchase_date(Date purchase_date) {
-        this.purchase_date = purchase_date;
+    public void setPurchaseDate(Date purchaseDate) {
+        this.purchaseDate = purchaseDate;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
