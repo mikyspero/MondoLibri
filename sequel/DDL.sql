@@ -91,4 +91,3 @@ SELECT * FROM purchase;
 -- Visualizza i dati dalla tabella cart_product
 SELECT * FROM cart_product;
 
-delete from author where id
