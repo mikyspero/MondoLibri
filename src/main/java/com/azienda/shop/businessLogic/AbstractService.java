@@ -1,14 +1,13 @@
 package com.azienda.shop.businessLogic;
 import com.azienda.shop.dao.AbstractDAO;
-
 import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.function.Supplier;
 
-public abstract class AbstractService<T> {
+public abstract class AbstractService<T>{
     private EntityManager manager;
-    private AbstractDAO<T> dao;;
-    protected AbstractService(EntityManager manager, AbstractDAO dao) {
+    private AbstractDAO<T> dao;
+    protected AbstractService(EntityManager manager, AbstractDAO<T> dao) {
         this.manager = manager;
         this.dao = dao;
     }
@@ -40,6 +39,7 @@ public abstract class AbstractService<T> {
             throw e;
         }
     }
+
 
     public T insert(T toBeInserted) throws Exception {
         return executeTransaction(() -> dao.create(toBeInserted));

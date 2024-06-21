@@ -1,32 +1,14 @@
 package com.azienda.shop.businessLogic;
 
 import com.azienda.shop.dao.RoleDAO;
+import com.azienda.shop.dao.UserDAO;
+import com.azienda.shop.model.User;
 
 import javax.persistence.EntityManager;
 
-public class UserService {
-    private EntityManager manager;
-    private RoleDAO dao;
-
-
-    public UserService(EntityManager manager, RoleDAO dao) {
-        this.manager = manager;
-        this.dao = dao;
+public class UserService extends AbstractService<User> {
+    public UserService(EntityManager manager, UserDAO dao) {
+        super(manager,dao);
     }
 
-    public EntityManager getManager() {
-        return manager;
-    }
-
-    public void setManager(EntityManager manager) {
-        this.manager = manager;
-    }
-
-    public RoleDAO getDao() {
-        return dao;
-    }
-
-    public void setDao(RoleDAO dao) {
-        this.dao = dao;
-    }
 }

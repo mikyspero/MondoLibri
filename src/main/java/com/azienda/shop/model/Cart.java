@@ -3,31 +3,35 @@ package com.azienda.shop.model;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity
+@Entity  // Indica che questa classe è una entità JPA e verrà mappata a una tabella nel database
 public class Cart {
-    @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+
+    @Id  // Specifica che questo campo è la chiave primaria della tabella
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Indica che il valore dell'ID è generato automaticamente dal database usando una strategia di incremento
     private Integer id;
 
-    @OneToOne
-    @JoinColumn(name = "id_user")
+    @OneToOne  // Definisce una relazione uno-a-uno con la classe User
+    @JoinColumn(name = "id_user")  // Specifica la colonna di join per la relazione uno-a-uno
     private User user;
 
-    @ManyToMany
-    @JoinTable(
-            name = "cart_product",
-            joinColumns = @JoinColumn(name = "id_cart"),
-            inverseJoinColumns = @JoinColumn(name = "id_product"))
-    private List<Product> products;
+    @ManyToMany  // Definisce una relazione molti-a-molti con la classe Product
+    @JoinTable(  // Definisce la tabella di join per la relazione molti-a-molti
+            name = "cart_product",  // Nome della tabella di join
+            joinColumns = @JoinColumn(name = "id_cart"),  // Colonna di join che fa riferimento alla classe Cart
+            inverseJoinColumns = @JoinColumn(name = "id_product"))  // Colonna di join che fa riferimento alla classe Product
+    private List<Product> products;  // Lista di prodotti associati al carrello
 
-    //COSTRUTTORE VUOTO PER HIBERNATE
+    // Costruttore vuoto richiesto da Hibernate
     public Cart() {
     }
 
+    // Costruttore che accetta una lista di prodotti e un utente
     public Cart(List<Product> products, User user) {
         this.products = products;
         this.user = user;
     }
+
+    // Getter e setter per accedere e modificare i campi privati
 
     public List<Product> getProducts() {
         return products;
@@ -44,5 +48,4 @@ public class Cart {
     public void setUser(User user) {
         this.user = user;
     }
-
 }

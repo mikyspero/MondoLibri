@@ -14,11 +14,12 @@ public class RoleDAO  extends AbstractDAO<Role>{
 
     @Override
     protected List<Role> executeQuery(String query) {
+
         return List.of();
     }
 
     @Override
     protected Class<Role> getEntityClass() {
-        return null;
+        return Role.class;
     }
 }

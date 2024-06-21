@@ -3,37 +3,38 @@ package com.azienda.shop.model;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity
+@Entity  // Indica che questa classe è una entità JPA e verrà mappata a una tabella nel database
 public class Product {
-    @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @Id  // Specifica che questo campo è la chiave primaria della tabella
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Indica che il valore dell'ID è generato automaticamente dal database usando una strategia di incremento
     private Integer id;
-    private String name;
-    private double price;
-    private int quantity;
-    private String description;
-    private byte[] image;
-    private String language;
 
-    @ManyToOne
-    @JoinColumn(name = "id_author")
+    private String name;  // Campo per memorizzare il nome del prodotto
+    private double price;  // Campo per memorizzare il prezzo del prodotto
+    private int quantity;  // Campo per memorizzare la quantità disponibile del prodotto
+    private String description;  // Campo per memorizzare la descrizione del prodotto
+    private byte[] image;  // Campo per memorizzare l'immagine del prodotto come array di byte
+    private String language;  // Campo per memorizzare la lingua del prodotto
+
+    @ManyToOne  // Definisce una relazione molti-a-uno con la classe `Author`
+    @JoinColumn(name = "id_author")  // Specifica la colonna di join per la relazione molti-a-uno
     private Author author;
 
-    @ManyToOne
-    @JoinColumn(name = "id_genre")
+    @ManyToOne  // Definisce una relazione molti-a-uno con la classe `Genre`
+    @JoinColumn(name = "id_genre")  // Specifica la colonna di join per la relazione molti-a-uno
     private Genre genre;
 
-    @ManyToMany(mappedBy = "products")
+    @ManyToMany(mappedBy = "products")  // Definisce una relazione molti-a-molti con la classe `Cart`
     private List<Cart> carts;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product")  // Definisce una relazione uno-a-molti con la classe `Purchase`
     private List<Purchase> purchases;
 
-
-    //COSTRUTTORE VUOTO
+    // Costruttore vuoto richiesto da Hibernate
     public Product() {
     }
 
+    // Costruttore che accetta tutti i campi tranne l'immagine
     public Product(List<Purchase> purchases, List<Cart> carts, Genre genre, Author author, String language, String description, int quantity, double price, String name) {
         this.purchases = purchases;
         this.carts = carts;
@@ -46,6 +47,7 @@ public class Product {
         this.name = name;
     }
 
+    // Costruttore che accetta tutti i campi inclusa l'immagine
     public Product(List<Purchase> purchases, List<Cart> carts, Genre genre, Author author, String language, byte[] image, String description, int quantity, double price, String name) {
         this.purchases = purchases;
         this.carts = carts;
@@ -59,6 +61,7 @@ public class Product {
         this.name = name;
     }
 
+    // Costruttore che accetta solo i campi principali del prodotto
     public Product(String name, Double price, int quantity, String description, String language) {
         this.name = name;
         this.price = price;
@@ -66,6 +69,8 @@ public class Product {
         this.description = description;
         this.language = language;
     }
+
+    // Getter e setter per accedere e modificare i campi privati
 
     public List<Purchase> getPurchases() {
         return purchases;
