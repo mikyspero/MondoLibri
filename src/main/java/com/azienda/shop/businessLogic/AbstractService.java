@@ -1,6 +1,7 @@
 package com.azienda.shop.businessLogic;
 import com.azienda.shop.dao.AbstractDAO;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -28,18 +29,31 @@ public abstract class AbstractService<T>{
         this.dao = dao;
     }
 
-    protected <R> R executeTransaction(Supplier<R> action){
-        try{
-            manager.getTransaction().begin();
+    protected <R> R executeTransaction(Supplier<R> action) {
+        EntityManager em = getManager();
+        EntityTransaction transaction = em.getTransaction();
+        try {
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
+
             R result = action.get();
-            manager.getTransaction().commit();
+
+            if (transaction.isActive() && !transaction.getRollbackOnly()) {
+                transaction.commit();
+            } else {
+                transaction.rollback();
+            }
+
             return result;
-        }catch (Exception e) {
-            manager.getTransaction().rollback();
+
+        } catch (Exception e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
             throw e;
         }
     }
-
 
     public T insert(T toBeInserted) throws Exception {
         return executeTransaction(() -> dao.create(toBeInserted));
@@ -57,6 +71,10 @@ public abstract class AbstractService<T>{
       return executeTransaction( () -> dao.update(toBeUpdated));
     }
 
+    public boolean doesElementExist(T toBeFound) throws Exception {
+            return dao.exist(toBeFound);
+    }
+
     public void delete(T toBeDeleted) throws Exception {
         try{
             manager.getTransaction().begin();
@@ -65,6 +83,8 @@ public abstract class AbstractService<T>{
         }catch (Exception e) {
             manager.getTransaction().rollback();
             throw e;
+        } finally {
+            manager.close();
         }
     }
 }

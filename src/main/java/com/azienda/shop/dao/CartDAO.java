@@ -11,6 +11,8 @@ public class CartDAO  extends AbstractDAO<Cart>{
         super(entityManager);
     }
 
+
+
     @Override
     protected List<Cart> executeQuery(String query) {
         return List.of();
@@ -18,6 +20,6 @@ public class CartDAO  extends AbstractDAO<Cart>{
 
     @Override
     protected Class<Cart> getEntityClass() {
-        return null;
+        return Cart.class;
     }
 }

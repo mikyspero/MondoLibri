@@ -18,6 +18,6 @@ public class ProductDAO extends AbstractDAO<Product> {
 
     @Override
     protected Class<Product> getEntityClass() {
-        return null;
+        return Product.class;
     }
 }

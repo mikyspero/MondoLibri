@@ -19,6 +19,6 @@ public class PurchaseDAO extends  AbstractDAO<Purchase> {
 
     @Override
     protected Class<Purchase> getEntityClass() {
-        return null;
+        return  Purchase.class;
     }
 }

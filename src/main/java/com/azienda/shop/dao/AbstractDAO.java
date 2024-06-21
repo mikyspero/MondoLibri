@@ -44,7 +44,7 @@ public abstract class AbstractDAO<T> implements DAOinterface<T> {
     }
 
     // Method to check if an entity instance is managed by the EntityManager
-    boolean exist(T t) {
+    public boolean exist(T t) {
         return entityManager.contains(t);
     }
 
@@ -72,4 +72,6 @@ public abstract class AbstractDAO<T> implements DAOinterface<T> {
     protected AbstractDAO(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
+
+
 }
