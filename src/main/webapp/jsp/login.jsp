@@ -13,6 +13,7 @@
     <input type="password" id="password" name="password" required><br><br>
     <input type="submit" value="Login">
 </form>
-<p><%= request.getAttribute("errorMessage") %></p>
+
+<p><<%= request.getAttribute("errorMessage") %></p>
 </body>
 </html>

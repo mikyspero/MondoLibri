@@ -12,6 +12,6 @@
 </head>
 <body>
 <h2>Welcome</h2>
-<a href="LogoutServlet">Logout</a>
+<a href="logout">Logout</a>
 </body>
 </html>
