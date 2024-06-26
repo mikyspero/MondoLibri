@@ -17,10 +17,10 @@ public class WelcomeServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("username") == null) {
-            response.sendRedirect("login.jsp");
+            response.sendRedirect("login");
             return;
         }
 
-        request.getRequestDispatcher("welcome.jsp").forward(request, response);
+        request.getRequestDispatcher("/jsp/welcome.jsp").forward(request, response);
     }
 }

@@ -3,5 +3,15 @@
     if (session != null) {
         session.invalidate();
     }
-    response.sendRedirect("login.jsp");
+    response.sendRedirect("login");
 %>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome</title>
+</head>
+<body>
+<h2>Welcome</h2>
+<a href="LogoutServlet">Logout</a>
+</body>
+</html>

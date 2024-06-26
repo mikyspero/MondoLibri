@@ -25,10 +25,15 @@ public class    LoginServlet extends HttpServlet {
         if ("admin".equals(username) && "password".equals(password)) {
             HttpSession session = request.getSession();
             session.setAttribute("username", username);
-            response.sendRedirect("welcome.jsp");
+            response.sendRedirect("welcome");
         } else {
             request.setAttribute("errorMessage", "Invalid username or password");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+            request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
         }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
     }
 }
