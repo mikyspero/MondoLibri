@@ -37,10 +37,9 @@ public class Search extends HttpServlet {
         String query = req.getParameter("query");
 
         //AbstractService<Product> service = new ProductService();
-        List<Product> products = productService.retrieveAll(query);
-
-        req.setAttribute("products", products);
-        req.getRequestDispatcher("/search.jsp").forward(req, resp);
+        //List<Product> products = ;
+//        req.setAttribute("products", products);
+//        req.getRequestDispatcher("/search.jsp").forward(req, resp);
 
     }
 

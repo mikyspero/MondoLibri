@@ -2,6 +2,7 @@ package com.azienda.shop.model;
 
 import javax.persistence.*;
 import java.util.List;
+import java.sql.Blob;
 
 @Entity  // Indica che questa classe è una entità JPA e verrà mappata a una tabella nel database
 public class Product {
@@ -13,7 +14,7 @@ public class Product {
     private double price;  // Campo per memorizzare il prezzo del prodotto
     private int quantity;  // Campo per memorizzare la quantità disponibile del prodotto
     private String description;  // Campo per memorizzare la descrizione del prodotto
-    private byte[] image;  // Campo per memorizzare l'immagine del prodotto come array di byte
+    private Blob image;
     private String language;  // Campo per memorizzare la lingua del prodotto
 
     @ManyToOne  // Definisce una relazione molti-a-uno con la classe `Author`
@@ -48,7 +49,7 @@ public class Product {
     }
 
     // Costruttore che accetta tutti i campi inclusa l'immagine
-    public Product(List<Purchase> purchases, List<Cart> carts, Genre genre, Author author, String language, byte[] image, String description, int quantity, double price, String name) {
+    public Product(List<Purchase> purchases, List<Cart> carts, Genre genre, Author author, String language, Blob image, String description, int quantity, double price, String name) {
         this.purchases = purchases;
         this.carts = carts;
         this.genre = genre;
@@ -112,12 +113,8 @@ public class Product {
         this.language = language;
     }
 
-    public byte[] getImage() {
+    public Blob getImage() {
         return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
     }
 
     public String getDescription() {
@@ -150,5 +147,9 @@ public class Product {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setImage(Blob image) {
+        this.image = image;
     }
 }

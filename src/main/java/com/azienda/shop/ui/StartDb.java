@@ -35,11 +35,9 @@ public class StartDb {
                     System.out.println("Login successful for user: " + loggedInUser.getUsername());
                 } else {
                     System.out.println("Login failed: Invalid credentials");
+
                 }
-            } catch (NoSuchAlgorithmException e) {
-                System.out.println("Error: Password hashing algorithm not available");
-                e.printStackTrace();
-            } catch (RuntimeException e) {
+            }  catch (RuntimeException e) {
                 System.out.println("Login failed: " + e.getMessage());
                 e.printStackTrace();
             }            List<User> roles = service.retrieveAll();
