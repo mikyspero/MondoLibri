@@ -2,10 +2,10 @@ Dall'analisi del documento, possiamo evidenziare le seguenti operazioni DAO (Dat
 
 Operazioni su Utenti:
 
-Registrazione di un nuovo utente 
-Verifica dell'esistenza di un'username durante la registrazione 
-Recupero delle informazioni di un utente durante il login 
-Recupero di tutti gli utenti registrati (solo per amministratori) 
+Registrazione di un nuovo utente	
+Verifica dell'esistenza di un'username durante la registrazione 	
+Recupero delle informazioni di un utente durante il login 	
+Recupero di tutti gli utenti registrati (solo per amministratori) 	
 
 
 Operazioni su Prodotti:
@@ -26,9 +26,9 @@ Recupero del carrello di un utente
 
 Operazioni su Ordini:
 
-Inserimento di un nuovo ordine di acquisto -> fatto
+Inserimento di un nuovo ordine di acquisto 
 Recupero degli ordini di acquisto di un utente
-Recupero di tutti gli ordini di acquisto (solo per amministratori) -> fatto
+Recupero di tutti gli ordini di acquisto (solo per amministratori) 
 Recupero di statistiche sugli acquisti per ogni prodotto (solo per amministratori)
 
 
