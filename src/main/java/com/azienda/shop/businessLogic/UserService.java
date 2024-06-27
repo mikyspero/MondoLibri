@@ -1,6 +1,8 @@
 package com.azienda.shop.businessLogic;
 
 import com.azienda.shop.dao.UserDAO;
+import com.azienda.shop.exceptions.AuthenticationException;
+import com.azienda.shop.exceptions.UserAlreadyExistsException;
 import com.azienda.shop.model.User;
 import com.azienda.shop.utils.PasswordHasher;
 
@@ -15,13 +17,13 @@ public class UserService extends AbstractService<User> {
         // Verifica se esiste un utente con lo stesso username
         User sameName = ((UserDAO) getDao()).findByName(toBeRegistered.getUsername());
         if (sameName != null) {
-            throw new RuntimeException("Username già esistente");
+            throw new UserAlreadyExistsException("Username già esistente");
         }
 
         // Verifica se esiste un utente con la stessa email
         User sameMail = ((UserDAO) getDao()).findByEmail(toBeRegistered.getEmail());
         if (sameMail != null) {
-            throw new RuntimeException("Email già utilizzata");
+            throw new UserAlreadyExistsException("Email già utilizzata");
         }
 
         return true;
@@ -47,7 +49,7 @@ public class UserService extends AbstractService<User> {
 
                 // Controlla se l'utente esiste
                 if (user == null) {
-                    throw new RuntimeException("Utente non trovato con l'identificatore fornito");
+                    throw new AuthenticationException("Utente non trovato con l'identificatore fornito");
                 }
 
                 // Effettua l'hashing della password fornita
@@ -57,7 +59,7 @@ public class UserService extends AbstractService<User> {
                 if (user.getPassword().equals(hashedPassword)) {
                     return user;
                 } else {
-                    throw new RuntimeException("Password errata");
+                    throw new AuthenticationException("Password errata");
                 }
             } catch (NoSuchAlgorithmException e) {
                 throw new RuntimeException("Errore durante l'hashing della password", e);
