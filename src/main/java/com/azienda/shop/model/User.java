@@ -45,6 +45,11 @@ public class User {
         this.username = username;
     }
 
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     // Costruttore che accetta tutti i campi della classe
     public User(Role role, Cart cart, List<Purchase> purchases, String address, String email, String password, String username) {
         this.role = role;

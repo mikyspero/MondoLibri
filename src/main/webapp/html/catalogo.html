@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catalogo - Mondo Libri</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/app.js" defer></script>
+</head>
+<header class="header_cat">
+    <div class="navbar">
+        <h2>ISCRIVITI</h2>
+    </div>
+</header>
+<body>
+    <main>
+        <div class="container">
+            
+            <div class="search-bar">
+                <h2>Catalogo Completo</h2>
+                <input type="text" id="searchTitle" placeholder="Cerca per titolo...">
+                <input type="text" id="searchAuthor" placeholder="Cerca per autore...">
+                <input type="text" id="searchGenre" placeholder="Cerca per genere...">
+                <button onclick="searchBooks()">Cerca</button>
+            </div>
+            <div class="products" id="productList">
+                <!-- Tutti i libri saranno inseriti qui dal database -->
+                <div class="product">
+                    <img src="img/harry_potter.jpg" alt="Harry Potter e la Pietra Filosofale">
+                    <h3>Harry Potter e la Pietra Filosofale</h3>
+                    <p>J.K. Rowling</p>
+                    <p>Genere: Fantasy</p>
+                </div>
+                <div class="product">
+                    <img src="img/il_nome_della_rosa.jpg" alt="Il Nome della Rosa">
+                    <h3>Il Nome della Rosa</h3>
+                    <p>Umberto Eco</p>
+                    <p>Genere: Giallo Storico</p>
+                </div>
+                <div class="product">
+                    <img src="img/la_solitudine_dei_numeri_primi.jpg" alt="La Solitudine dei Numeri Primi">
+                    <h3>La Solitudine dei Numeri Primi</h3>
+                    <p>Paolo Giordano</p>
+                    <p>Genere: Drammatico</p>
+                </div>
+                <!-- Altri prodotti -->
+            </div>
+        </div>
+    </main>
+</body>
+<footer>
+    <div>
+        <p>&copy; 2024 Mondo Libri. Tutti i diritti riservati.</p>
+    </div>
+</footer>
+</html>

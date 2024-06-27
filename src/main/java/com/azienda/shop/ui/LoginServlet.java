@@ -1,5 +1,7 @@
 package com.azienda.shop.ui;
 
+import com.azienda.shop.businessLogic.UserService;
+import com.azienda.shop.model.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -18,8 +20,13 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        UserService service = (UserService) request.getServletContext().getAttribute("userService");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+//        User user = new User(username, password);
+        service.loginWithUser(username, password);
+
 
         // Dummy authentication logic
         if ("admin".equals(username) && "password".equals(password)) {
