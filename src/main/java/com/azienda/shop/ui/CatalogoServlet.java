@@ -9,15 +9,19 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebServlet("/logout")
-public class LogoutServlet extends HttpServlet {
+@WebServlet("/catalogo")
+public class CatalogoServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
+
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(false); // Ottieni la sessione esistente senza crearne una nuova
-        if (session != null) {
-            session.invalidate(); // Invalida la sessione
-        }
-        response.sendRedirect("index"); // Reindirizza alla pagina di login
+        HttpSession session = request.getSession(false);
+//        if (session == null || session.getAttribute("username") == null) {
+//            response.sendRedirect("index");
+//            return;
+//        }
+
+        request.getRequestDispatcher("/jsp/catalogo.jsp").forward(request, response);
     }
 }

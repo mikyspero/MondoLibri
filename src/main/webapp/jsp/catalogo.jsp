@@ -1,15 +1,16 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catalogo - Mondo Libri</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <script src="../js/app.js" defer></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <script src="${pageContext.request.contextPath}/js/app.js" defer></script>
 </head>
 <header class="header_cat">
     <div class="navbar">
-        <h2>ISCRIVITI</h2>
+        <h2> <a href="${pageContext.request.contextPath}/index">HOME</a></h2>
     </div>
 </header>
 <body>
@@ -26,19 +27,19 @@
             <div class="products" id="productList">
                 <!-- Tutti i libri saranno inseriti qui dal database -->
                 <div class="product">
-                    <img src="img/harry_potter.jpg" alt="Harry Potter e la Pietra Filosofale">
+                    <img src="${pageContext.request.contextPath}/img/harry_potter.jpg" alt="Harry Potter e la Pietra Filosofale">
                     <h3>Harry Potter e la Pietra Filosofale</h3>
                     <p>J.K. Rowling</p>
                     <p>Genere: Fantasy</p>
                 </div>
                 <div class="product">
-                    <img src="img/il_nome_della_rosa.jpg" alt="Il Nome della Rosa">
+                    <img src="${pageContext.request.contextPath}/img/il_nome_della_rosa.jpg" alt="Il Nome della Rosa">
                     <h3>Il Nome della Rosa</h3>
                     <p>Umberto Eco</p>
                     <p>Genere: Giallo Storico</p>
                 </div>
                 <div class="product">
-                    <img src="img/la_solitudine_dei_numeri_primi.jpg" alt="La Solitudine dei Numeri Primi">
+                    <img src="${pageContext.request.contextPath}/img/la_solitudine_dei_numeri_primi.jpg" alt="La Solitudine dei Numeri Primi">
                     <h3>La Solitudine dei Numeri Primi</h3>
                     <p>Paolo Giordano</p>
                     <p>Genere: Drammatico</p>

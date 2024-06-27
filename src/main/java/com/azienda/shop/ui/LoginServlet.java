@@ -26,17 +26,19 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter("password");
 //        User user = new User(username, password);
         service.loginWithUser(username, password);
-
+        HttpSession session = request.getSession();
+        session.setAttribute("username", username);
+        response.sendRedirect("index");
 
         // Dummy authentication logic
-        if ("admin".equals(username) && "password".equals(password)) {
-            HttpSession session = request.getSession();
-            session.setAttribute("username", username);
-            response.sendRedirect("welcome");
-        } else {
-            request.setAttribute("errorMessage", "Invalid username or password");
-            request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
-        }
+//        if ("admin".equals(username) && "password".equals(password)) {
+//            HttpSession session = request.getSession();
+//            session.setAttribute("username", username);
+//            response.sendRedirect("welcome");
+//        } else {
+//            request.setAttribute("errorMessage", "Invalid username or password");
+//            request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
+//        }
     }
 
     @Override

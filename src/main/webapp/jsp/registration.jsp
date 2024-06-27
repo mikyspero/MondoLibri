@@ -15,7 +15,7 @@
     <input type="email" id="email" name="email" required><br><br>
     <label for="address">address:</label>
     <input type="text" id="address" name="address" required><br><br>
-    <input type="submit" value="Login">
+    <input type="submit" value="Registrati">
 </form>
 <p><%= request.getAttribute("errorMessage") %></p>
 </body>

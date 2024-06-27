@@ -56,7 +56,7 @@ public class UserService extends AbstractService<User> {
                 String hashedPassword = PasswordHasher.hashPassword(password);
 
                 // Controlla se la password è corretta
-                if (user.getPassword().equals(hashedPassword)) {
+                if (user.getPassword().equals(password)) {
                     return user;
                 } else {
                     throw new AuthenticationException("Password errata");

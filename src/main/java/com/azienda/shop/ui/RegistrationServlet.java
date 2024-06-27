@@ -30,7 +30,7 @@ public class RegistrationServlet extends HttpServlet {
         service.register(user);
         HttpSession session = request.getSession();
         session.setAttribute("username", username);
-        response.sendRedirect("welcome");
+        response.sendRedirect("index");
     }
 
     @Override
