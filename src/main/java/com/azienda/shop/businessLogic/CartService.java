@@ -10,13 +10,14 @@ import com.azienda.shop.model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import java.util.List;
 
 public class CartService extends AbstractService<Cart> {
     private CartDAO cartDAO;
     private ProductDAO productDAO;
     private UserDAO userDAO;
 
-    public CartService(EntityManager manager, CartDAO dao ){
+    public CartService(EntityManager manager, CartDAO dao) {
         super(manager, dao);
     }
 
@@ -28,7 +29,7 @@ public class CartService extends AbstractService<Cart> {
     }
 
 
-    public void addProductToCart(Integer userId, Integer productId) throws Exception {
+    public void addProductToCart(Integer userId, Integer productId) {
         executeTransaction(() -> {
             User user = userDAO.findById(userId);
             if (user == null) {
@@ -54,7 +55,7 @@ public class CartService extends AbstractService<Cart> {
         });
     }
 
-    public void removeProductFromCart(Integer userId, Integer productId) throws Exception {
+    public void removeProductFromCart(Integer userId, Integer productId)  {
         executeTransaction(() -> {
             User user = userDAO.findById(userId);
             if (user == null) {
@@ -72,12 +73,10 @@ public class CartService extends AbstractService<Cart> {
 
             cart.getProducts().remove(product);
             cartDAO.update(cart);
-
-            return null;
         });
     }
 
-    public Cart getCartByUserId(Integer userId) throws Exception {
+    public Cart getCartByUserId(Integer userId)  {
         return executeTransaction(() -> {
             User user = userDAO.findById(userId);
             if (user == null) {
@@ -86,5 +85,22 @@ public class CartService extends AbstractService<Cart> {
             return user.getCart();
         });
     }
+
+
+
+    public void clearCart(Integer userId)  {
+        executeTransaction(() -> {
+            User user = userDAO.findById(userId);
+            if (user == null) {
+                throw new IllegalArgumentException("User not found");
+            }
+            Cart cart = user.getCart();
+            if (cart != null) {
+                cart.getProducts().clear();
+                cartDAO.update(cart);
+            }
+        });
+    }
+
 }
 

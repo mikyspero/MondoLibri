@@ -55,37 +55,52 @@ public abstract class AbstractService<T>{
         }
     }
 
-    public T insert(T toBeInserted) throws Exception {
+    protected void executeTransaction(Runnable action) {
+        EntityManager em = getManager();
+        EntityTransaction transaction = em.getTransaction();
+        try {
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
+
+            action.run();
+
+            if (transaction.isActive() && !transaction.getRollbackOnly()) {
+                transaction.commit();
+            } else {
+                transaction.rollback();
+            }
+
+        } catch (Exception e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw e;
+        }
+    }
+
+    public T insert(T toBeInserted)  {
         return executeTransaction(() -> dao.create(toBeInserted));
     }
 
-    public T retrieveById(Integer id) throws Exception {
-       return executeTransaction( () -> dao.findById(id));
+    public T retrieveById(Integer id)  {
+        return executeTransaction( () -> dao.findById(id));
     }
 
-    public List<T> retrieveAll() throws Exception {
+    public List<T> retrieveAll()  {
         return executeTransaction( () -> dao.findAll());
     }
 
-    public T updateElement(T toBeUpdated) throws Exception {
-      return executeTransaction( () -> dao.update(toBeUpdated));
+    public T updateElement(T toBeUpdated)  {
+        return executeTransaction( () -> dao.update(toBeUpdated));
     }
 
-    public boolean doesElementExist(T toBeFound) throws Exception {
-            return dao.exist(toBeFound);
+    public boolean doesElementExist(T toBeFound)  {
+        return dao.exist(toBeFound);
     }
 
-    public void delete(T toBeDeleted) throws Exception {
-        try{
-            manager.getTransaction().begin();
-            dao.delete(toBeDeleted);
-            manager.getTransaction().commit();
-        }catch (Exception e) {
-            manager.getTransaction().rollback();
-            throw e;
-        } finally {
-            manager.close();
-        }
+    public void delete(T toBeDeleted)  {
+        executeTransaction(()-> dao.delete(toBeDeleted));
     }
 }
 

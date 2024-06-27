@@ -28,6 +28,7 @@ public class StartDb {
             UserDAO dao = new UserDAO(entityManager);
             UserService service = new UserService(entityManager, dao);
             User u = User.createInstance("via ","aadsdafaafdcsd@as.com","234","adwafeazxcvb");
+            //u = service.register(u);
             // Perform login test
             try {
                 User loggedInUser = service.loginWithEmail("aadsdafaafdcsd@as.com", "234");
@@ -40,9 +41,11 @@ public class StartDb {
             }  catch (RuntimeException e) {
                 System.out.println("Login failed: " + e.getMessage());
                 e.printStackTrace();
-            }            List<User> roles = service.retrieveAll();
+            }
+            List<User> roles = service.retrieveAll();
+            System.out.println(roles.size());
             for(User role1 : roles){
-                System.out.println(role1);
+                System.out.println(role1.getRole().getNome());
             }
 
 

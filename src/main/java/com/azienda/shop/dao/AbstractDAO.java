@@ -13,7 +13,7 @@ public abstract class AbstractDAO<T> implements DAOinterface<T> {
 
     // Abstract method to get the entity class
     // Subclasses must provide the implementation for their specific entity type
-    protected abstract Class<T> getEntityClass();
+    public abstract Class<T> getEntityClass();
 
     // Implementation of the create method
     // Persists a new entity instance to the database
@@ -72,6 +72,8 @@ public abstract class AbstractDAO<T> implements DAOinterface<T> {
     protected AbstractDAO(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
+
+
 
 
 }

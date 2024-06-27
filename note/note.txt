@@ -11,10 +11,10 @@ Recupero di tutti gli utenti registrati (solo per amministratori) ->  fatto
 Operazioni su Prodotti:
 
 Inserimento di un nuovo prodotto (solo per amministratori) -> fatto
-Verifica dell'esistenza di un prodotto con lo stesso nome durante l'inserimento
+Verifica dell'esistenza di un prodotto con lo stesso nome durante l'inserimento->fatto
 Aggiornamento di un prodotto esistente (solo per amministratori) -> fatto
 Eliminazione di un prodotto (solo per amministratori) -> fatto
-Recupero di prodotti in base a filtri di ricerca (nome, prezzo)
+Recupero di prodotti in base a filtri di ricerca (nome, prezzo) -> fatto
 
 
 Operazioni su Carrello:

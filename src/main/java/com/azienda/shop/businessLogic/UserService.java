@@ -12,16 +12,14 @@ public class UserService extends AbstractService<User> {
 
     // Controlla se la registrazione di un utente è consentita verificando la presenza di username e email già esistenti nel sistema.
     private boolean allowRegister(User toBeRegistered) {
-        UserDAO userDAO = (UserDAO) getDao();
-
         // Verifica se esiste un utente con lo stesso username
-        User sameName = userDAO.findByName(toBeRegistered.getUsername());
+        User sameName = ((UserDAO) getDao()).findByName(toBeRegistered.getUsername());
         if (sameName != null) {
             throw new RuntimeException("Username già esistente");
         }
 
         // Verifica se esiste un utente con la stessa email
-        User sameMail = userDAO.findByEmail(toBeRegistered.getEmail());
+        User sameMail = ((UserDAO) getDao()).findByEmail(toBeRegistered.getEmail());
         if (sameMail != null) {
             throw new RuntimeException("Email già utilizzata");
         }

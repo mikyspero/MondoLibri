@@ -17,7 +17,7 @@ public class GenreDAO extends AbstractDAO<Genre> {
     }
 
     @Override
-    protected Class<Genre> getEntityClass() {
+    public  Class<Genre> getEntityClass() {
         return Genre.class;
     }
 }

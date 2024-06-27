@@ -72,6 +72,9 @@ public class Product {
     }
 
     // Getter e setter per accedere e modificare i campi privati
+    public Integer getId() {
+        return id;
+    }
 
     public List<Purchase> getPurchases() {
         return purchases;

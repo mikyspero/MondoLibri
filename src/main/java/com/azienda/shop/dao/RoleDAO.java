@@ -19,7 +19,7 @@ public class RoleDAO  extends AbstractDAO<Role>{
     }
 
     @Override
-    protected Class<Role> getEntityClass() {
+    public Class<Role> getEntityClass() {
         return Role.class;
     }
 }

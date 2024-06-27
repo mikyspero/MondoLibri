@@ -41,7 +41,7 @@ public class UserDAO extends AbstractDAO<User> {
 
 
     @Override
-    protected Class<User> getEntityClass() {
+    public Class<User> getEntityClass() {
         return  User.class;
     }
 }

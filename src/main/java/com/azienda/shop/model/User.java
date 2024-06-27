@@ -65,7 +65,20 @@ public class User {
         return new User(address, email, PasswordHasher.hashPassword(password), username);
     }
 
+    public void isAdmin(){
+        if (!this.getRole().equals("Admin")){
+            throw new SecurityException("You do not have permission to access this resource");
+        }
+    }
+
+
     // Getter e setter per accedere e modificare i campi privati
+
+
+    public Integer getId() {
+        return id;
+    }
+
     public Role getRole() {
         return role;
     }

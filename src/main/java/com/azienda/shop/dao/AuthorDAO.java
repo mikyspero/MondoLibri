@@ -24,7 +24,7 @@ public class AuthorDAO extends AbstractDAO<Author> {
     }
 
     @Override
-    protected Class<Author> getEntityClass() {
+    public Class<Author> getEntityClass() {
         return Author.class;
     }
 
