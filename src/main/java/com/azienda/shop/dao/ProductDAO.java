@@ -53,3 +53,4 @@ public class ProductDAO extends AbstractDAO<Product> {
         return Product.class;
     }
 }
+

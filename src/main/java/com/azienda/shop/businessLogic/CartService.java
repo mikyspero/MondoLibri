@@ -1,6 +1,5 @@
 package com.azienda.shop.businessLogic;
 
-import com.azienda.shop.dao.AbstractDAO;
 import com.azienda.shop.dao.CartDAO;
 import com.azienda.shop.dao.ProductDAO;
 import com.azienda.shop.dao.UserDAO;
@@ -9,18 +8,24 @@ import com.azienda.shop.model.Product;
 import com.azienda.shop.model.User;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import java.util.List;
 
+/**
+ * Service class for managing operations related to user carts.
+ * Extends AbstractService to leverage common transactional and CRUD operations.
+ */
 public class CartService extends AbstractService<Cart> {
-    private CartDAO cartDAO;
-    private ProductDAO productDAO;
-    private UserDAO userDAO;
+    private final CartDAO cartDAO;
+    private final ProductDAO productDAO;
+    private final UserDAO userDAO;
 
-    public CartService(EntityManager manager, CartDAO dao) {
-        super(manager, dao);
-    }
-
+    /**
+     * Constructs a CartService instance.
+     *
+     * @param manager    EntityManager instance for managing JPA operations.
+     * @param cartDAO    CartDAO instance for CRUD operations on carts.
+     * @param productDAO ProductDAO instance for CRUD operations on products.
+     * @param userDAO    UserDAO instance for CRUD operations on users.
+     */
     public CartService(EntityManager manager, CartDAO cartDAO, ProductDAO productDAO, UserDAO userDAO) {
         super(manager, cartDAO);
         this.cartDAO = cartDAO;
@@ -28,13 +33,20 @@ public class CartService extends AbstractService<Cart> {
         this.userDAO = userDAO;
     }
 
-
+    /**
+     * Adds a product to the user's cart.
+     *
+     * @param userId    ID of the user.
+     * @param productId ID of the product to add to the cart.
+     * @throws IllegalArgumentException if the user or product is not found.
+     */
     public void addProductToCart(Integer userId, Integer productId) {
         executeTransaction(() -> {
             User user = userDAO.findById(userId);
             if (user == null) {
-                throw new IllegalArgumentException("User not found");
+                throw new IllegalArgumentException("User not found with ID: " + userId);
             }
+
             Cart cart = user.getCart();
             if (cart == null) {
                 cart = new Cart();
@@ -45,62 +57,83 @@ public class CartService extends AbstractService<Cart> {
 
             Product product = productDAO.findById(productId);
             if (product == null) {
-                throw new IllegalArgumentException("Product not found");
+                throw new IllegalArgumentException("Product not found with ID: " + productId);
             }
 
             cart.getProducts().add(product);
             cartDAO.update(cart);
-
             return null;
         });
     }
 
-    public void removeProductFromCart(Integer userId, Integer productId)  {
+    /**
+     * Removes a product from the user's cart.
+     *
+     * @param userId    ID of the user.
+     * @param productId ID of the product to remove from the cart.
+     * @throws IllegalArgumentException if the user or product is not found, or if the cart is not found for the user.
+     */
+    public void removeProductFromCart(Integer userId, Integer productId) {
         executeTransaction(() -> {
             User user = userDAO.findById(userId);
             if (user == null) {
-                throw new IllegalArgumentException("User not found");
+                throw new IllegalArgumentException("User not found with ID: " + userId);
             }
+
             Cart cart = user.getCart();
             if (cart == null) {
-                throw new IllegalArgumentException("Cart not found");
+                throw new IllegalArgumentException("Cart not found for user ID: " + userId);
             }
 
             Product product = productDAO.findById(productId);
             if (product == null) {
-                throw new IllegalArgumentException("Product not found");
+                throw new IllegalArgumentException("Product not found with ID: " + productId);
             }
 
             cart.getProducts().remove(product);
             cartDAO.update(cart);
+            return null;
         });
     }
 
-    public Cart getCartByUserId(Integer userId)  {
+    /**
+     * Retrieves the cart of a user by user ID.
+     *
+     * @param userId ID of the user.
+     * @return Cart object associated with the user.
+     * @throws IllegalArgumentException if the user is not found.
+     */
+    public Cart getCartByUserId(Integer userId) {
         return executeTransaction(() -> {
             User user = userDAO.findById(userId);
             if (user == null) {
-                throw new IllegalArgumentException("User not found");
+                throw new IllegalArgumentException("User not found with ID: " + userId);
             }
             return user.getCart();
         });
     }
 
-
-
-    public void clearCart(Integer userId)  {
+    /**
+     * Clears the cart of a user by user ID.
+     *
+     * @param userId ID of the user.
+     * @throws IllegalArgumentException if the user is not found.
+     */
+    public void clearCart(Integer userId) {
         executeTransaction(() -> {
             User user = userDAO.findById(userId);
             if (user == null) {
-                throw new IllegalArgumentException("User not found");
+                throw new IllegalArgumentException("User not found with ID: " + userId);
             }
+
             Cart cart = user.getCart();
             if (cart != null) {
                 cart.getProducts().clear();
                 cartDAO.update(cart);
             }
+            return null;
         });
     }
-
 }
+
 

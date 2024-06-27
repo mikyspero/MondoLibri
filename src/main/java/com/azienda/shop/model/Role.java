@@ -3,49 +3,83 @@ package com.azienda.shop.model;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity  // Indica che questa classe è una entità JPA e verrà mappata a una tabella nel database
+/**
+ * Entity class representing a role that can be assigned to users.
+ * Each Role can have multiple associated users.
+ */
+@Entity
 public class Role {
-    @Id  // Specifica che questo campo è la chiave primaria della tabella
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Indica che il valore dell'ID è generato automaticamente dal database usando una strategia di incremento
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String nome;  // Campo per memorizzare il nome del ruolo
+    private String nome;  // Name of the role
 
-    @OneToMany(mappedBy = "role")  // Definisce una relazione uno-a-molti con la classe `User`. Il campo `role` nella classe `User` è il proprietario della relazione
-    private List<User> users;  // Lista di utenti associati al ruolo
+    @OneToMany(mappedBy = "role")
+    private List<User> users;  // List of users associated with this role
 
-    // Costruttore vuoto richiesto da Hibernate
+    /**
+     * Default constructor required by Hibernate.
+     * Initializes an empty instance of Role.
+     */
     public Role() {
     }
 
+    /**
+     * Constructor that accepts a name for the role.
+     * @param nome Name of the role.
+     */
     public Role(String nome) {
         this.nome = nome;
     }
 
-    // Costruttore che accetta una lista di utenti e un nome
+    /**
+     * Constructor that accepts a list of users and a name for the role.
+     * @param users List of users associated with this role.
+     * @param nome Name of the role.
+     */
     public Role(List<User> users, String nome) {
         this.users = users;
         this.nome = nome;
     }
 
-    // Getter e setter per accedere e modificare i campi privati
-
+    /**
+     * Retrieves the name of the role.
+     * @return Name of the role.
+     */
     public String getNome() {
         return nome;
     }
 
+    /**
+     * Sets the name of the role.
+     * @param nome Name of the role.
+     */
     public void setNome(String nome) {
         this.nome = nome;
     }
 
+    /**
+     * Retrieves the list of users associated with this role.
+     * @return List of users associated with this role.
+     */
     public List<User> getUsers() {
         return users;
     }
 
+    /**
+     * Sets the list of users associated with this role.
+     * @param users List of users associated with this role.
+     */
     public void setUsers(List<User> users) {
         this.users = users;
     }
 
+    /**
+     * Generates a string representation of the Role object.
+     * @return String representation of the Role object.
+     */
     @Override
     public String toString() {
         return "Role{" +

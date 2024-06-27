@@ -3,56 +3,91 @@ package com.azienda.shop.model;
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity  // Indica che questa classe è una entità JPA e verrà mappata a una tabella nel database
+/**
+ * Entity class representing a purchase made by a user for a specific product.
+ * Each Purchase is associated with a User, a Product, and a purchase date.
+ */
+@Entity
 public class Purchase {
-    @Id  // Specifica che questo campo è la chiave primaria della tabella
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Indica che il valore dell'ID è generato automaticamente dal database usando una strategia di incremento
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne  // Definisce una relazione molti-a-uno con la classe `User`
-    @JoinColumn(name = "id_user")  // Specifica la colonna di join per la relazione molti-a-uno
-    private User user;
+    @ManyToOne
+    @JoinColumn(name = "id_user")
+    private User user;  // User who made the purchase
 
-    @ManyToOne  // Definisce una relazione molti-a-uno con la classe `Product`
-    @JoinColumn(name = "id_product")  // Specifica la colonna di join per la relazione molti-a-uno
-    private Product product;
+    @ManyToOne
+    @JoinColumn(name = "id_product")
+    private Product product;  // Product that was purchased
 
-    @Temporal(TemporalType.DATE)  // Specifica che il campo `purchaseDate` deve essere trattato come una data
-    private Date purchaseDate;
+    @Temporal(TemporalType.DATE)
+    private Date purchaseDate;  // Date when the purchase was made
 
-    // Costruttore vuoto richiesto da Hibernate
+    /**
+     * Default constructor required by Hibernate.
+     * Initializes an empty instance of Purchase.
+     */
     public Purchase() {
     }
 
-    // Costruttore che accetta tutti i campi della classe
+    /**
+     * Constructor that accepts all fields of the Purchase.
+     * @param purchaseDate Date when the purchase was made.
+     * @param product Product that was purchased.
+     * @param user User who made the purchase.
+     */
     public Purchase(Date purchaseDate, Product product, User user) {
         this.purchaseDate = purchaseDate;
         this.product = product;
         this.user = user;
     }
 
-    // Getter e setter per accedere e modificare i campi privati
-
+    /**
+     * Retrieves the date when the purchase was made.
+     * @return Date when the purchase was made.
+     */
     public Date getPurchaseDate() {
         return purchaseDate;
     }
 
+    /**
+     * Sets the date when the purchase was made.
+     * @param purchaseDate Date when the purchase was made.
+     */
     public void setPurchaseDate(Date purchaseDate) {
         this.purchaseDate = purchaseDate;
     }
 
+    /**
+     * Retrieves the product that was purchased.
+     * @return Product that was purchased.
+     */
     public Product getProduct() {
         return product;
     }
 
+    /**
+     * Sets the product that was purchased.
+     * @param product Product that was purchased.
+     */
     public void setProduct(Product product) {
         this.product = product;
     }
 
+    /**
+     * Retrieves the user who made the purchase.
+     * @return User who made the purchase.
+     */
     public User getUser() {
         return user;
     }
 
+    /**
+     * Sets the user who made the purchase.
+     * @param user User who made the purchase.
+     */
     public void setUser(User user) {
         this.user = user;
     }

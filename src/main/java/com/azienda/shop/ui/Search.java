@@ -25,7 +25,7 @@ public class Search extends HttpServlet {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Shop");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         ProductDAO productDAO = new ProductDAO(entityManager);
-        ProductService productService = new ProductService(entityManager, productDAO);
+        //ProductService productService = new ProductService(entityManager, productDAO);
     }
 
     @Override

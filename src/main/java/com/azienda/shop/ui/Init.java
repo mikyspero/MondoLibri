@@ -5,6 +5,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import com.azienda.shop.businessLogic.UserService;
+import com.azienda.shop.dao.CartDAO;
 import com.azienda.shop.dao.UserDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -20,7 +21,7 @@ public class Init extends HttpServlet{
             manager =factory.createEntityManager();
             System.out.println("connessione OK");
             UserDAO userDAO = new UserDAO(manager);
-            UserService userService=new UserService(manager, userDAO);
+            UserService userService=new UserService(manager, userDAO, new CartDAO(manager));
             getServletContext().setAttribute("userService", userService);
         } catch (Exception e) {
             e.printStackTrace();

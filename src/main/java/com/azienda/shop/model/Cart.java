@@ -3,48 +3,86 @@ package com.azienda.shop.model;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity  // Indica che questa classe è una entità JPA e verrà mappata a una tabella nel database
+/**
+ * Represents a cart entity associated with a user and containing products.
+ * This class is mapped to a database table using JPA annotations.
+ */
+@Entity
 public class Cart {
 
-    @Id  // Specifica che questo campo è la chiave primaria della tabella
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Indica che il valore dell'ID è generato automaticamente dal database usando una strategia di incremento
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToOne  // Definisce una relazione uno-a-uno con la classe User
-    @JoinColumn(name = "id_user")  // Specifica la colonna di join per la relazione uno-a-uno
-    private User user;
+    @OneToOne
+    @JoinColumn(name = "id_user")
+    private User user; // User associated with this cart
 
-    @ManyToMany  // Definisce una relazione molti-a-molti con la classe Product
-    @JoinTable(  // Definisce la tabella di join per la relazione molti-a-molti
-            name = "cart_product",  // Nome della tabella di join
-            joinColumns = @JoinColumn(name = "id_cart"),  // Colonna di join che fa riferimento alla classe Cart
-            inverseJoinColumns = @JoinColumn(name = "id_product"))  // Colonna di join che fa riferimento alla classe Product
-    private List<Product> products;  // Lista di prodotti associati al carrello
+    @ManyToMany
+    @JoinTable(
+            name = "cart_product",
+            joinColumns = @JoinColumn(name = "id_cart"),
+            inverseJoinColumns = @JoinColumn(name = "id_product"))
+    private List<Product> products; // List of products in the cart
 
-    // Costruttore vuoto richiesto da Hibernate
+    /**
+     * Default constructor required by Hibernate.
+     */
     public Cart() {
     }
 
-    // Costruttore che accetta una lista di prodotti e un utente
+    /**
+     * Constructs a Cart object with specified products and user.
+     *
+     * @param products List of products in the cart.
+     * @param user     User associated with the cart.
+     */
     public Cart(List<Product> products, User user) {
         this.products = products;
         this.user = user;
     }
 
-    // Getter e setter per accedere e modificare i campi privati
+    /**
+     * Constructs a Cart object associated with a user without any products initially.
+     *
+     * @param user User associated with the cart.
+     */
+    public Cart(User user) {
+        this.user = user;
+    }
 
+    /**
+     * Retrieves the list of products in the cart.
+     *
+     * @return List of products in the cart.
+     */
     public List<Product> getProducts() {
         return products;
     }
 
+    /**
+     * Sets the list of products in the cart.
+     *
+     * @param products List of products to set in the cart.
+     */
     public void setProducts(List<Product> products) {
         this.products = products;
     }
 
+    /**
+     * Retrieves the user associated with the cart.
+     *
+     * @return User associated with the cart.
+     */
     public User getUser() {
         return user;
     }
 
+    /**
+     * Sets the user associated with the cart.
+     *
+     * @param user User to associate with the cart.
+     */
     public void setUser(User user) {
         this.user = user;
     }

@@ -3,32 +3,54 @@ package com.azienda.shop.model;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity  // Indica che questa classe è una entità JPA
+/**
+ * Represents an author entity associated with products.
+ * This class is mapped to a database table using JPA annotations.
+ */
+@Entity
 public class Author {
 
-    @Id  // Specifica che questo campo è la chiave primaria
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Indica che l'ID è generato automaticamente dal database con la strategia di incremento
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String name;  // Campo per memorizzare il nome dell'autore
+    private String name; // Name of the author
 
-    @OneToMany(mappedBy = "author")  // Relazione one-to-many con la classe Product, il campo 'author' nella classe Product è il proprietario della relazione
-    private List<Product> products;  // Lista di prodotti associati all'autore
+    @OneToMany(mappedBy = "author")
+    private List<Product> products; // List of products associated with the author
 
-    // Getter e setter per accedere e modificare i campi privati
-
+    /**
+     * Retrieves the list of products associated with this author.
+     *
+     * @return List of products associated with the author.
+     */
     public List<Product> getProducts() {
         return products;
     }
 
+    /**
+     * Sets the list of products associated with this author.
+     *
+     * @param products List of products to associate with the author.
+     */
     public void setProducts(List<Product> products) {
         this.products = products;
     }
 
+    /**
+     * Retrieves the name of the author.
+     *
+     * @return Name of the author.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets the name of the author.
+     *
+     * @param name Name of the author.
+     */
     public void setName(String name) {
         this.name = name;
     }

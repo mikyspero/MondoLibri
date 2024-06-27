@@ -24,4 +24,8 @@ public class PasswordHasher {
         }
         return sb.toString();
     }
+
+    public static boolean comparePassword(String password, String hashedPassword) throws NoSuchAlgorithmException {
+        return hashPassword(password).equals(hashedPassword);
+    }
 }

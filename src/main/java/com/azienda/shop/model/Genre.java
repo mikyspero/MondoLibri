@@ -3,42 +3,67 @@ package com.azienda.shop.model;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity  // Indica che questa classe è una entità JPA e verrà mappata a una tabella nel database
+/**
+ * Entity class representing a genre of products.
+ * Each Genre can have multiple associated products.
+ */
+@Entity
 public class Genre {
 
-    @Id  // Specifica che questo campo è la chiave primaria della tabella
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Indica che il valore dell'ID è generato automaticamente dal database usando una strategia di incremento
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String name;  // Campo per memorizzare il nome del genere
+    private String name;  // Name of the genre
 
-    @OneToMany(mappedBy = "genre")  // Relazione uno-a-molti con la classe Product, il campo 'genre' nella classe Product è il proprietario della relazione
-    private List<Product> products;  // Lista di prodotti associati al genere
+    @OneToMany(mappedBy = "genre")  // One-to-many relationship with Product, where 'genre' in Product owns the relationship
+    private List<Product> products;  // List of products associated with the genre
 
-    // Costruttore vuoto richiesto da Hibernate
+    /**
+     * Default constructor required by Hibernate.
+     * Initializes an empty instance of Genre.
+     */
     public Genre() {
     }
 
-    // Costruttore che accetta una lista di prodotti e un nome
+    /**
+     * Constructor that initializes Genre with a list of products and a name.
+     * @param products The list of products associated with this genre.
+     * @param name The name of the genre.
+     */
     public Genre(List<Product> products, String name) {
         this.products = products;
         this.name = name;
     }
 
-    // Getter e setter per accedere e modificare i campi privati
-
+    /**
+     * Retrieves the list of products associated with this genre.
+     * @return List of products associated with the genre.
+     */
     public List<Product> getProducts() {
         return products;
     }
 
+    /**
+     * Sets the list of products associated with this genre.
+     * @param products List of products to set for the genre.
+     */
     public void setProducts(List<Product> products) {
         this.products = products;
     }
 
+    /**
+     * Retrieves the name of the genre.
+     * @return Name of the genre.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets the name of the genre.
+     * @param name Name to set for the genre.
+     */
     public void setName(String name) {
         this.name = name;
     }

@@ -4,40 +4,49 @@ import com.azienda.shop.utils.PasswordHasher;
 
 import javax.persistence.*;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.List;
 
-// CLASSE USER
-@Entity  // Indica che questa classe è una entità JPA e verrà mappata a una tabella nel database
+/**
+ * Entity class representing a user in the system.
+ * Each User can have a role, a cart, and multiple purchases associated with them.
+ */
+@Entity
 public class User {
 
-    @Id  // Specifica che questo campo è la chiave primaria della tabella
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Indica che il valore dell'ID è generato automaticamente dal database usando una strategia di incremento
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(unique = true, nullable = false)  // Indica che il campo `username` è unico e non può essere nullo
+    @Column(unique = true, nullable = false)
     private String username;
 
-    @Column(nullable = false)  // Indica che il campo `password` non può essere nullo
+    @Column(nullable = false)
     private String password;
 
-    @Column(unique = true, nullable = false)  // Indica che il campo `email` è unico e non può essere nullo
+    @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(nullable = false)  // Indica che il campo `address` non può essere nullo
+    @Column(nullable = false)
     private String address;
 
-    @OneToMany(mappedBy = "user")  // Definisce una relazione uno-a-molti con la classe `Purchase`. Il campo `user` nella classe `Purchase` è il proprietario della relazione
+    @OneToMany(mappedBy = "user")
     private List<Purchase> purchases;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)  // Definisce una relazione uno-a-uno con la classe `Cart`. Il campo `user` nella classe `Cart` è il proprietario della relazione. La cascata ALL significa che tutte le operazioni di persistenza saranno propagate dal `User` al `Cart`
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Cart cart;
 
-    @ManyToOne  // Definisce una relazione molti-a-uno con la classe `Role`
-    @JoinColumn(name = "id_role")  // Specifica la colonna di join per la relazione molti-a-uno
+    @ManyToOne
+    @JoinColumn(name = "id_role")
     private Role role;
 
-    // Costruttore per il PasswordHasher DO NOT DELETE
+    /**
+     * Constructor that accepts address, email, password, and username.
+     * Used internally for creating a new User instance with a hashed password.
+     * @param address Address of the user.
+     * @param email Email of the user.
+     * @param password Password of the user (hashed using PasswordHasher).
+     * @param username Username of the user.
+     */
     public User(String address, String email, String password, String username) {
         this.address = address;
         this.email = email;
@@ -45,12 +54,27 @@ public class User {
         this.username = username;
     }
 
+    /**
+     * Constructor that accepts only username and password.
+     * Used internally for authentication purposes.
+     * @param username Username of the user.
+     * @param password Password of the user.
+     */
     public User(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
-    // Costruttore che accetta tutti i campi della classe
+    /**
+     * Constructor that accepts all fields of the User class.
+     * @param role Role of the user.
+     * @param cart Cart associated with the user.
+     * @param purchases List of purchases made by the user.
+     * @param address Address of the user.
+     * @param email Email of the user.
+     * @param password Password of the user.
+     * @param username Username of the user.
+     */
     public User(Role role, Cart cart, List<Purchase> purchases, String address, String email, String password, String username) {
         this.role = role;
         this.cart = cart;
@@ -61,22 +85,35 @@ public class User {
         this.username = username;
     }
 
-    // Costruttore vuoto richiesto da Hibernate
+    /**
+     * Default constructor required by Hibernate.
+     * Initializes an empty instance of User.
+     */
     public User() {
     }
 
-    // Metodo statico per creare un'istanza di User con la password hashata
+    /**
+     * Static method to create a new User instance with a hashed password.
+     * @param address Address of the user.
+     * @param email Email of the user.
+     * @param password Plain password of the user.
+     * @param username Username of the user.
+     * @return User instance with hashed password.
+     * @throws NoSuchAlgorithmException If the hashing algorithm is not available.
+     */
     public static User createInstance(String address, String email, String password, String username) throws NoSuchAlgorithmException {
         return new User(address, email, PasswordHasher.hashPassword(password), username);
     }
 
+    /**
+     * Method to check if the user is an admin.
+     * Throws SecurityException if the user does not have admin role.
+     */
     public void isAdmin(){
-        if (!this.getRole().equals("Admin")){
+        if (!this.getRole().getNome().equals("Admin")){
             throw new SecurityException("You do not have permission to access this resource");
         }
     }
-
-
     // Getter e setter per accedere e modificare i campi privati
 
 
