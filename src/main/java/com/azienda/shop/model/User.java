@@ -101,7 +101,7 @@ public class User {
      * @return User instance with hashed password.
      * @throws NoSuchAlgorithmException If the hashing algorithm is not available.
      */
-    public static User createInstance(String address, String email, String password, String username) throws NoSuchAlgorithmException {
+    public static User createInstance(String username, String password, String email, String address) throws NoSuchAlgorithmException {
         return new User(address, email, PasswordHasher.hashPassword(password), username);
     }
 

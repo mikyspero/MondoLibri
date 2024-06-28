@@ -24,11 +24,11 @@ public class Product {
     private Blob image;  // Image of the product
 
     @ManyToOne
-    @JoinColumn(name = "id_author")
+    @JoinColumn(name = "author_id")
     private Author author;  // Author of the product
 
     @ManyToOne
-    @JoinColumn(name = "id_genre")
+    @JoinColumn(name = "genre_id")
     private Genre genre;  // Genre of the product
 
     @ManyToMany(mappedBy = "products")
@@ -276,6 +276,15 @@ public class Product {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "name='" + name + '\'' +
+                ", author=" + author +
+                ", price=" + price +
+                '}';
     }
 }
 

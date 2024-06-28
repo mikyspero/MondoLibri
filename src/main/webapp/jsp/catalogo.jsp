@@ -16,6 +16,20 @@
 <body>
     <main>
         <div class="container">
+
+            <form action="catalogo" method="get">
+                <label for="keyword">Parola chiave:</label>
+                <input type="text" id="keyword" name="keyword">
+
+                <label for="minPrice">Prezzo minimo:</label>
+                <input type="text" id="minPrice" name="minPrice">
+
+                <label for="maxPrice">Prezzo massimo:</label>
+                <input type="text" id="maxPrice" name="maxPrice">
+
+                <button type="submit">Cerca</button>
+            </form>
+
             
             <div class="search-bar">
                 <h2>Catalogo Completo</h2>

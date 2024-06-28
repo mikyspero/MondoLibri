@@ -24,15 +24,25 @@ public class ProductDAO extends AbstractDAO<Product> {
         }
     }
 
-    public List<Product> searchByName(String name) {
+    public List<Product> search(String name) {
         return entityManager.createQuery("SELECT p FROM Product p WHERE LOWER(p.name) LIKE :name", Product.class)
                 .setParameter("name", "%" + name.toLowerCase() + "%")
                 .getResultList();
     }
 
 
-    public List<Product> searchByPriceBounds(double minPrice, double maxPrice) {
+    public List<Product> search(double minPrice, double maxPrice) {
         return entityManager.createQuery("SELECT p FROM Product p WHERE p.price BETWEEN :minPrice AND :maxPrice", Product.class)
+                .setParameter("minPrice", minPrice)
+                .setParameter("maxPrice", maxPrice)
+                .getResultList();
+    }
+
+    // Search products by name and price range
+    public List<Product> search(String name, double minPrice, double maxPrice) {
+        return entityManager.createQuery(
+                        "SELECT p FROM Product p WHERE LOWER(p.name) LIKE :name AND p.price BETWEEN :minPrice AND :maxPrice", Product.class)
+                .setParameter("name", "%" + name.toLowerCase() + "%")
                 .setParameter("minPrice", minPrice)
                 .setParameter("maxPrice", maxPrice)
                 .getResultList();

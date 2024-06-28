@@ -11,7 +11,7 @@ import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 
 @WebFilter("/html/privata/*")
-public class FiltroAccessi implements Filter {
+public class AccessAdminFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain arg2)

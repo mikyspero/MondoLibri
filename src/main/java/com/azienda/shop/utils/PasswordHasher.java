@@ -49,6 +49,8 @@ public class PasswordHasher {
      */
     public static boolean comparePassword(String password, String hashedPassword) throws NoSuchAlgorithmException {
         // Hash the provided password and compare it with the hashed password from the database
+        String passwordHash = hashPassword(password);
         return hashPassword(password).equals(hashedPassword);
+
     }
 }

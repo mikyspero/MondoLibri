@@ -12,7 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 
 @WebServlet(value="/init",loadOnStartup = 1 )
-public class Init extends HttpServlet{
+public class InitServlet extends HttpServlet{
     @Override
     public void init() throws ServletException {
         EntityManager manager=null;

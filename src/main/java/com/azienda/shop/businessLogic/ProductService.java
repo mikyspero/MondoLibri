@@ -101,8 +101,13 @@ public class ProductService extends AbstractService<Product> {
      * @param keyword Keyword to search for in product names.
      * @return List of Product objects matching the search criteria.
      */
-    public List<Product> searchProducts(String keyword) {
-        return executeTransaction(() -> ((ProductDAO) getDao()).searchByName(keyword));
+    public List<Product> search(String keyword) {
+        return executeTransaction(() -> ((ProductDAO) getDao()).search(keyword));
+    }
+
+    public List<Product> search(String keyword, Double minPrice, Double maxPrice) {
+        return executeTransaction(() -> ((ProductDAO) getDao()).search(keyword, minPrice, maxPrice));
+
     }
 
     /**
@@ -111,8 +116,8 @@ public class ProductService extends AbstractService<Product> {
      * @param maxPrice Maximum price of the products to search for.
      * @return List of Product objects within the specified price range.
      */
-    public List<Product> searchProducts(Double minPrice, Double maxPrice) {
-        return executeTransaction(() -> ((ProductDAO) getDao()).searchByPriceBounds(minPrice, maxPrice));
+    public List<Product> search(Double minPrice, Double maxPrice) {
+        return executeTransaction(() -> ((ProductDAO) getDao()).search(minPrice, maxPrice));
     }
 
     /**
