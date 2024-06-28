@@ -59,7 +59,11 @@ public class CartService extends AbstractService<Cart> {
             if (product == null) {
                 throw new IllegalArgumentException("Product not found with ID: " + productId);
             }
-
+            for(Product item: cart.getProducts()) {
+                if (item.getId() == product.getId()) {
+                    throw new IllegalArgumentException("Product is already in cart" + productId);
+                }
+            }
             cart.getProducts().add(product);
             cartDAO.update(cart);
             return null;

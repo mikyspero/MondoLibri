@@ -23,10 +23,12 @@ public class AccessAdminFilter implements Filter {
 
             //se ti sei loggato ti faccio andare avanti
             if(sessione != null) {
-                arg2.doFilter(arg0, arg1);
-            }else {
                 //ti butto fuori
                 arg0.getRequestDispatcher("/html/pubblica/Login.html").forward(arg0, arg1);
+
+            }else {
+                arg2.doFilter(arg0, arg1);
+
             }
         } catch (Exception e) {
             e.printStackTrace();

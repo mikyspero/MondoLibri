@@ -128,4 +128,12 @@ public class UserService extends AbstractService<User> {
             }
         });
     }
+    public Cart GetRelatedCart(Integer id) {
+        return this.retrieveById(id).getCart();
+    }
+
+
+    public User findByUsername(String name) {
+        return ((UserDAO) getDao()).findByName(name);
+    }
 }
