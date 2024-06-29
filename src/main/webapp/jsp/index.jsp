@@ -26,10 +26,10 @@
             <%
                 if (session == null || session.getAttribute("username") == null) {
             %>
-        <form action="${pageContext.request.contextPath}/registration" method="post">
+        <form action="${pageContext.request.contextPath}/registration" method="get">
             <button type="submit">Registrati</button>
         </form>
-        <form action="${pageContext.request.contextPath}/login" method="post">
+        <form action="${pageContext.request.contextPath}/login" method="get">
             <button type="submit">Login</button>
         </form>
             <%
