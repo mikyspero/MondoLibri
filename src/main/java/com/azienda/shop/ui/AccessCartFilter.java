@@ -1,4 +1,5 @@
-package com.azienda.shop.filters;
+package com.azienda.shop.ui;
+
 
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
