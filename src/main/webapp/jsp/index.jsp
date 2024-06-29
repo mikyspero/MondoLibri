@@ -23,12 +23,15 @@
                 }
             %>
         </h2>
-        <div class="dropdown">
             <%
                 if (session == null || session.getAttribute("username") == null) {
             %>
-            <a href="${pageContext.request.contextPath}/registration">Registrati</a>
-            <a href="${pageContext.request.contextPath}/login">Loggati</a>
+        <form action="${pageContext.request.contextPath}/registration" method="post">
+            <button type="submit">Registrati</button>
+        </form>
+        <form action="${pageContext.request.contextPath}/login" method="post">
+            <button type="submit">Login</button>
+        </form>
             <%
             } else {
             %>
@@ -38,13 +41,15 @@
             <%
                 }
             %>
-        </div>
     </div>
     <div class="navbar">
         <h2>CHI SIAMO</h2>
     </div>
     <div class="navbar">
         <h2> <a href="${pageContext.request.contextPath}/catalogo">CATALOGO</a></h2>
+    </div>
+    <div class="navbar">
+        <h2><a href="${pageContext.request.contextPath}/cart">🛒 Carrello</a></h2>
     </div>
 </header>
 

@@ -1,9 +1,10 @@
-package com.azienda.shop.ui;
+package com.azienda.shop.filters;
 
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
@@ -15,31 +16,18 @@ public class AccessCartFilter implements Filter {
             throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
+        HttpSession session = httpRequest.getSession(false);
 
-        try {
-            String username = (String) httpRequest.getSession().getAttribute("username");
-
-            if (username == null) {
-                // L'utente non è loggato, reindirizza alla pagina di login
-                httpResponse.sendRedirect(httpRequest.getContextPath() + "/login");
-            } else {
-                // L'utente è loggato, permetti l'accesso al carrello
-                chain.doFilter(request, response);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            // In caso di errore, reindirizza a una pagina di errore
-            httpResponse.sendRedirect(httpRequest.getContextPath() + "/error");
+        if (session == null || session.getAttribute("username") == null) {
+            httpResponse.sendRedirect(httpRequest.getContextPath() + "/login");
+        } else {
+            chain.doFilter(request, response);
         }
     }
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-        // Inizializzazione del filtro, se necessario
-    }
+    public void init(FilterConfig filterConfig) throws ServletException {}
 
     @Override
-    public void destroy() {
-        // Pulizia delle risorse, se necessario
-    }
+    public void destroy() {}
 }
