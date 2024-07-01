@@ -1,34 +1,97 @@
 package com.azienda.shop.factories;
 
-import com.azienda.shop.businessLogic.CartService;
-import com.azienda.shop.businessLogic.ProductService;
-import com.azienda.shop.businessLogic.PurchaseService;
-import com.azienda.shop.businessLogic.UserService;
+import com.azienda.shop.businessLogic.*;
+import com.azienda.shop.dao.*;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 
 public class ServiceFactory {
-    DaoFactory daoFactory;
+    private final DaoFactory daoFactory;
 
-    private ServiceFactory(DaoFactory daoFactory) {
-        this.daoFactory = daoFactory;
+    private ServiceFactory(EntityManagerFactory emf) {
+        this.daoFactory = new DaoFactory(emf.createEntityManager());
     }
 
-    public static ServiceFactory getInstance(DaoFactory daoFactory) {
-        return new ServiceFactory(daoFactory);
+    public static ServiceFactory getInstance(EntityManagerFactory emf) {
+        return new ServiceFactory(emf);
     }
 
     public CartService getCartService() {
-        return new CartService(daoFactory.getEntityManager(), daoFactory.makeCartDAO(), daoFactory.makeProductDao(), daoFactory.makeUserDAO());
+        return new CartService(
+                daoFactory.getEntityManager(),
+                daoFactory.getCartDAO(),
+                daoFactory.getProductDAO(),
+                daoFactory.getUserDAO()
+        );
     }
 
     public ProductService getProductService() {
-        return new ProductService(daoFactory.getEntityManager(), daoFactory.makeProductDao(), daoFactory.makeCartDAO());
+        return new ProductService(
+                daoFactory.getEntityManager(),
+                daoFactory.getProductDAO(),
+                daoFactory.getCartDAO()
+        );
     }
 
     public PurchaseService getPurchaseService() {
-        return new PurchaseService(daoFactory.getEntityManager(), daoFactory.makePurchaseDAO(), daoFactory.makeCartDAO(), daoFactory.makeProductDao());
+        return new PurchaseService(
+                daoFactory.getEntityManager(),
+                daoFactory.getPurchaseDAO(),
+                daoFactory.getCartDAO(),
+                daoFactory.getProductDAO()
+        );
     }
 
     public UserService getUserService() {
-        return new UserService(daoFactory.getEntityManager(), daoFactory.makeUserDAO(), daoFactory.makeCartDAO());
+        return new UserService(
+                daoFactory.getEntityManager(),
+                daoFactory.getUserDAO(),
+                daoFactory.getCartDAO()
+        );
+    }
+
+    private static class DaoFactory {
+        private final EntityManager em;
+        private CartDAO cartDAO;
+        private ProductDAO productDAO;
+        private PurchaseDAO purchaseDAO;
+        private UserDAO userDAO;
+
+        private DaoFactory(EntityManager em) {
+            this.em = em;
+        }
+
+        public CartDAO getCartDAO() {
+            if (cartDAO == null) {
+                cartDAO = new CartDAO(em);
+            }
+            return cartDAO;
+        }
+
+        public ProductDAO getProductDAO() {
+            if (productDAO == null) {
+                productDAO = new ProductDAO(em);
+            }
+            return productDAO;
+        }
+
+        public PurchaseDAO getPurchaseDAO() {
+            if (purchaseDAO == null) {
+                purchaseDAO = new PurchaseDAO(em);
+            }
+            return purchaseDAO;
+        }
+
+        public UserDAO getUserDAO() {
+            if (userDAO == null) {
+                userDAO = new UserDAO(em);
+            }
+            return userDAO;
+        }
+
+        public EntityManager getEntityManager() {
+            return em;
+        }
     }
 }
