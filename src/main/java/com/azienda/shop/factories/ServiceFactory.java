@@ -51,6 +51,13 @@ public class ServiceFactory {
         );
     }
 
+    public RoleService getRoleService() {
+        return new RoleService(
+                daoFactory.getEntityManager(),
+                daoFactory.getRoleDAO()
+        );
+    }
+
     private static class DaoFactory {
         private final EntityManager em;
         private CartDAO cartDAO;
@@ -63,31 +70,25 @@ public class ServiceFactory {
         }
 
         public CartDAO getCartDAO() {
-            if (cartDAO == null) {
-                cartDAO = new CartDAO(em);
-            }
-            return cartDAO;
+
+            return new CartDAO(em);
         }
 
         public ProductDAO getProductDAO() {
-            if (productDAO == null) {
-                productDAO = new ProductDAO(em);
-            }
-            return productDAO;
+
+            return new ProductDAO(em);
         }
 
         public PurchaseDAO getPurchaseDAO() {
-            if (purchaseDAO == null) {
-                purchaseDAO = new PurchaseDAO(em);
-            }
-            return purchaseDAO;
+            return new PurchaseDAO(em);
         }
 
         public UserDAO getUserDAO() {
-            if (userDAO == null) {
-                userDAO = new UserDAO(em);
-            }
-            return userDAO;
+            return new UserDAO(em);
+        }
+
+        public RoleDAO getRoleDAO() {
+            return new RoleDAO(em);
         }
 
         public EntityManager getEntityManager() {

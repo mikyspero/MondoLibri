@@ -8,6 +8,7 @@ import com.azienda.shop.dao.CartDAO;
 import com.azienda.shop.dao.ProductDAO;
 import com.azienda.shop.dao.PurchaseDAO;
 import com.azienda.shop.dao.UserDAO;
+import com.azienda.shop.factories.ServiceFactory;
 import com.azienda.shop.model.Cart;
 import com.azienda.shop.model.Product;
 import com.azienda.shop.model.Purchase;
@@ -32,17 +33,10 @@ public class PurchaseServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Shop");
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        ProductDAO productDAO = new ProductDAO(entityManager);
-        CartDAO cartDAO = new CartDAO(entityManager);
-        PurchaseDAO purchaseDAO = new PurchaseDAO(entityManager);
-        UserDAO userDAO = new UserDAO(entityManager);
-        purchaseService = new PurchaseService(entityManager, purchaseDAO, cartDAO, productDAO);
-        productService = new ProductService(entityManager, productDAO, cartDAO);
-
-        this.productService = new ProductService(entityManager, productDAO, cartDAO);
-        this.userService = new UserService(entityManager, userDAO, cartDAO);
+        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        ServiceFactory factory = ServiceFactory.getInstance(emf);
+        this.productService = factory.getProductService();
+        this.userService = factory.getUserService();
 
     }
 

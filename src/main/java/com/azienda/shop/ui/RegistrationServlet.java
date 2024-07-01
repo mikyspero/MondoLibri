@@ -5,6 +5,7 @@ import com.azienda.shop.businessLogic.PurchaseService;
 import com.azienda.shop.businessLogic.RoleService;
 import com.azienda.shop.businessLogic.UserService;
 import com.azienda.shop.dao.*;
+import com.azienda.shop.factories.ServiceFactory;
 import com.azienda.shop.model.Role;
 import com.azienda.shop.model.User;
 import jakarta.servlet.ServletException;
@@ -23,27 +24,15 @@ import java.security.NoSuchAlgorithmException;
 
 @WebServlet("/registration")
 public class RegistrationServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
-    PurchaseService purchaseService;
-    ProductService productService;
     UserService userService;
     RoleService roleService;
 
     @Override
     public void init() throws ServletException {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Shop");
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        ProductDAO productDAO = new ProductDAO(entityManager);
-        CartDAO cartDAO = new CartDAO(entityManager);
-        PurchaseDAO purchaseDAO = new PurchaseDAO(entityManager);
-        UserDAO userDAO = new UserDAO(entityManager);
-        RoleDAO roleDAO = new RoleDAO(entityManager);
-        purchaseService = new PurchaseService(entityManager, purchaseDAO, cartDAO, productDAO);
-        productService = new ProductService(entityManager, productDAO, cartDAO);
-
-        this.productService = new ProductService(entityManager, productDAO, cartDAO);
-        this.userService = new UserService(entityManager, userDAO, cartDAO);
-        this.roleService = new RoleService(entityManager, roleDAO);
+        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        ServiceFactory factory = ServiceFactory.getInstance(emf);
+        this.userService = factory.getUserService();
+        this.roleService = factory.getRoleService();
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.azienda.shop.ui;
 
 import com.azienda.shop.businessLogic.ProductService;
+import com.azienda.shop.factories.ServiceFactory;
 import com.azienda.shop.model.Product;
 import com.azienda.shop.model.User;
 import jakarta.servlet.ServletException;
@@ -10,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import javax.persistence.EntityManagerFactory;
 import java.io.IOException;
 
 @WebServlet("/product")
@@ -19,9 +21,9 @@ public class ProductServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        // Initialize ProductService here
-        // This is a placeholder; you'll need to properly initialize it with EntityManager, ProductDAO, and CartDAO
-        this.productService = new ProductService(null, null, null);
+        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        ServiceFactory factory = ServiceFactory.getInstance(emf);
+        this.productService = factory.getProductService();
     }
 
     @Override

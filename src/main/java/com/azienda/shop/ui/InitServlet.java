@@ -11,24 +11,18 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 
-@WebServlet(value="/init",loadOnStartup = 1 )
-public class InitServlet extends HttpServlet{
+@WebServlet(value="/init", loadOnStartup = 1)
+public class InitServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
-        EntityManager manager=null;
         try {
-            EntityManagerFactory factory=Persistence.createEntityManagerFactory("Shop");
-            manager =factory.createEntityManager();
-            System.out.println("connessione OK");
-            UserDAO userDAO = new UserDAO(manager);
-            UserService userService=new UserService(manager, userDAO, new CartDAO(manager));
-            getServletContext().setAttribute("userService", userService);
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("Shop");
+            getServletContext().setAttribute("emf", emf);
+            System.out.println("Initialization successful");
         } catch (Exception e) {
             e.printStackTrace();
-            manager.close();
-            System.exit(0);
+            throw new ServletException("Failed to initialize application", e);
         }
-
-
     }
 }
+

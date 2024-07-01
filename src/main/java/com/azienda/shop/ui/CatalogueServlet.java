@@ -2,6 +2,7 @@ package com.azienda.shop.ui;
 import com.azienda.shop.businessLogic.ProductService;
 import com.azienda.shop.dao.CartDAO;
 import com.azienda.shop.dao.ProductDAO;
+import com.azienda.shop.factories.ServiceFactory;
 import com.azienda.shop.model.Product;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -22,10 +23,9 @@ public class CatalogueServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Shop");
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        ProductDAO productDAO = new ProductDAO(entityManager);
-        productService = new ProductService(entityManager, productDAO, new CartDAO(entityManager));
+        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        ServiceFactory factory = ServiceFactory.getInstance(emf);
+        productService = factory.getProductService();
     }
 
 
