@@ -54,13 +54,13 @@ public class RemoveFromCartServlet extends HttpServlet {
             Cart updatedCart = userService.GetRelatedCart(userId);
             req.setAttribute("cart", updatedCart);
             // Redirect to the cart page
-            resp.sendRedirect(req.getContextPath() + "/jsp/privata/cart.jsp");
+
+            req.getRequestDispatcher("/jsp/privata/cart.jsp").forward(req, resp);
         }catch (ServletException e) {
             System.out.println("Error parsing User Data: " + e.getMessage());
             e.printStackTrace();
             resp.sendRedirect(req.getContextPath() + "/error");
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             System.out.println("Error parsing product ID: " + e.getMessage());
             e.printStackTrace();
             resp.sendRedirect(req.getContextPath() + "/error");

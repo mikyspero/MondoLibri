@@ -64,6 +64,7 @@ public class UserService extends AbstractService<User> {
     public User register(User toBeRegistered) {
         return executeTransaction(() -> {
             if (allowRegister(toBeRegistered)) {
+
                 User registeredUser = ((UserDAO) getDao()).create(toBeRegistered);
                 Cart userCart = this.cart.create(new Cart(registeredUser)); // Create cart for the registered user
                 registeredUser.setCart(userCart); // Set the created cart to the registered user

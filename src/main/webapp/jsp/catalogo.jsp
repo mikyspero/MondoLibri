@@ -7,7 +7,21 @@
 </head>
 <body class="bg-gray-100">
 <!-- ... other content ... -->
+<div class="container">
 
+    <form action="catalogo" method="get">
+        <label for="keyword">Parola chiave:</label>
+        <input type="text" id="keyword" name="keyword">
+
+        <label for="minPrice">Prezzo minimo:</label>
+        <input type="text" id="minPrice" name="minPrice">
+
+        <label for="maxPrice">Prezzo massimo:</label>
+        <input type="text" id="maxPrice" name="maxPrice">
+
+        <button type="submit">Cerca</button>
+    </form>
+</div>
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
     <%
         List<Product> products = (List<Product>)request.getAttribute("products");

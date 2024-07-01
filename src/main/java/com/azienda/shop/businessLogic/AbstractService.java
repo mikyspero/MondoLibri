@@ -75,23 +75,23 @@ public abstract class AbstractService<T> {
     protected <R> R executeTransaction(Supplier<R> action) {
         EntityManager em = getManager();
         EntityTransaction transaction = em.getTransaction();
+        boolean isNewTransaction = false;
         try {
             if (!transaction.isActive()) {
                 transaction.begin();
+                isNewTransaction = true;
             }
-
             R result = action.get();
-
-            if (transaction.isActive() && !transaction.getRollbackOnly()) {
-                transaction.commit();
-            } else {
-                transaction.rollback();
+            if (isNewTransaction) {
+                if (!transaction.getRollbackOnly()) {
+                    transaction.commit();
+                } else {
+                    transaction.rollback();
+                }
             }
-
             return result;
-
         } catch (Exception e) {
-            if (transaction.isActive()) {
+            if (isNewTransaction && transaction.isActive()) {
                 transaction.rollback();
             }
             throw e;

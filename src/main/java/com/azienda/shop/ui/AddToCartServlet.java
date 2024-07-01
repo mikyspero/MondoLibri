@@ -55,9 +55,10 @@ public class AddToCartServlet extends HttpServlet {
                 }
             }
             // Reindirizza alla pagina del carrello invece di fare un forward
-            resp.sendRedirect(req.getContextPath() + "/jsp/privata/cart.jsp");
-            String s = req.getContextPath() + "/jsp/privata/cart.jsp";
-            System.out.println(s);
+            req.getRequestDispatcher("/jsp/privata/cart.jsp").forward(req, resp);
+           // resp.sendRedirect(req.getContextPath() + "/jsp/privata/cart.jsp");
+//            String s = req.getContextPath() + "/jsp/privata/cart.jsp";
+//            System.out.println(s);
         } catch (NumberFormatException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();

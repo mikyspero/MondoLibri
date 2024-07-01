@@ -1,6 +1,7 @@
 package com.azienda.shop.model;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -23,6 +24,7 @@ public class Purchase {
     private Product product;  // Product that was purchased
 
     @Temporal(TemporalType.DATE)
+    @Column(name = "purchase_date")
     private Date purchaseDate;  // Date when the purchase was made
 
     /**

@@ -11,6 +11,7 @@
 <div class="container mx-auto">
     <h2 class="text-2xl font-bold mb-6">Carrello</h2>
     <%
+
         Cart cart = (Cart) request.getAttribute("cart");
         if (cart != null && !cart.getProducts().isEmpty()) {
     %>
@@ -20,8 +21,7 @@
             <th class="px-4 py-2">ID Prodotto</th>
             <th class="px-4 py-2">Nome</th>
             <th class="px-4 py-2">Prezzo</th>
-            <th class="px-4 py-2">Quantità</th>
-            <th class="px-4 py-2">Totale</th>
+            <th class="px-4 py-2">Rimuovi</th>
         </tr>
         </thead>
         <tbody>
@@ -32,8 +32,24 @@
             <td class="px-4 py-2 text-center"><%= product.getId() %></td>
             <td class="px-4 py-2 text-center"><%= product.getName() %></td>
             <td class="px-4 py-2 text-center"><%= String.format("%.2f", product.getPrice()) %> €</td>
-            <td class="px-4 py-2 text-center"><%= cart.getQuantity(product) %></td>
-            <td class="px-4 py-2 text-center"><%= String.format("%.2f", product.getPrice() * cart.getQuantity(product)) %> €</td>
+            <td class="px-4 py-2 text-center">
+                <%
+
+                %>
+                <form action="${pageContext.request.contextPath}/removecart" method="post">
+                    <input type="hidden" name="id" value="<%= product.getId() %>">
+                <button type="submit">Rimuovi</button>
+                </form>
+            </td>
+            <td class="px-4 py-2 text-center">
+                <%
+
+                %>
+                <form action="${pageContext.request.contextPath}/purchase" method="post">
+                    <input type="hidden" name="id" value="<%= product.getId() %>">
+                    <button type="submit">Acquista</button>
+                </form>
+            </td>
         </tr>
         <%
             }
@@ -41,7 +57,6 @@
         </tbody>
     </table>
     <div class="mt-4 text-right">
-        <p class="text-xl font-bold">Totale Carrello: <%= String.format("%.2f", cart.getTotalPrice()) %> €</p>
     </div>
     <%
     } else {

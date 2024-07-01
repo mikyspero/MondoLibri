@@ -54,6 +54,7 @@ public class User {
         this.username = username;
     }
 
+
     /**
      * Constructor that accepts only username and password.
      * Used internally for authentication purposes.
@@ -92,6 +93,23 @@ public class User {
     public User() {
     }
 
+    public User(Role role, String address, String email, String password, String username) {
+        this.role = role;
+        this.address = address;
+        this.email = email;
+        this.password = password;
+        this.username = username;
+    }
+
+    public User(Role role, Cart cart, String address, String email, String password, String username) {
+        this.role = role;
+        this.cart = cart;
+        this.address = address;
+        this.email = email;
+        this.password = password;
+        this.username = username;
+    }
+
     /**
      * Static method to create a new User instance with a hashed password.
      * @param address Address of the user.
@@ -101,8 +119,8 @@ public class User {
      * @return User instance with hashed password.
      * @throws NoSuchAlgorithmException If the hashing algorithm is not available.
      */
-    public static User createInstance(String username, String password, String email, String address) throws NoSuchAlgorithmException {
-        return new User(address, email, PasswordHasher.hashPassword(password), username);
+    public static User createInstance(Role role,String username, String password, String email, String address) throws NoSuchAlgorithmException {
+        return new User(role,address, email, PasswordHasher.hashPassword(password), username);
     }
 
     /**
@@ -110,7 +128,7 @@ public class User {
      * Throws SecurityException if the user does not have admin role.
      */
     public void isAdmin(){
-        if (!this.getRole().getNome().equals("Admin")){
+        if (!this.getRole().getNome().equals("admin")){
             throw new SecurityException("You do not have permission to access this resource");
         }
     }

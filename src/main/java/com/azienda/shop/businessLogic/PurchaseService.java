@@ -9,6 +9,7 @@ import com.azienda.shop.model.Product;
 import com.azienda.shop.model.User;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -40,31 +41,29 @@ public class PurchaseService extends AbstractService<Purchase> {
      *
      * @param user     User making the purchase.
      * @param product  Product being purchased.
-     * @param quantity Quantity of the product being purchased.
      * @return The created Purchase object.
      * @throws Exception if there is an issue creating the purchase.
      */
-    public Purchase createPurchase(User user, Product product, int quantity) throws Exception {
+    public Purchase createPurchase(User user, Product product) throws Exception {
         return executeTransaction(() -> {
             // Check if there's enough stock
-            if (product.getQuantity() < quantity) {
+            if (product.getQuantity() < 1) {
                 throw new IllegalStateException("Not enough stock for product: " + product.getName());
             }
+            Date currentDate = new Date(); // Get the current date
             // Create the purchase
-            Purchase purchase = new Purchase(new Date(), product, user);
+            Purchase purchase = new Purchase(currentDate, product, user);
+
             Purchase createdPurchase = insert(purchase);
-
             // Update product stock
-            product.setQuantity(product.getQuantity() - quantity);
+            product.setQuantity(product.getQuantity() - 1);
             productDAO.update(product);
-
             // Remove the product from the user's cart if it exists
             Cart cart = cartDAO.findByUser(user);
             if (cart != null) {
                 cart.getProducts().remove(product);
                 cartDAO.update(cart);
             }
-
             return createdPurchase;
         });
     }
