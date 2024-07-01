@@ -1,7 +1,6 @@
 package com.azienda.shop.ui;
 
 import com.azienda.shop.businessLogic.CartService;
-import com.azienda.shop.businessLogic.ProductService;
 import com.azienda.shop.businessLogic.UserService;
 import com.azienda.shop.dao.CartDAO;
 import com.azienda.shop.dao.ProductDAO;
@@ -20,11 +19,11 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.io.IOException;
 
-@WebServlet("/addcart")
-public class AddToCartServlet extends HttpServlet {
-    ProductService productService;
-    UserService userService;
+@WebServlet("/removecart")
+public class RemoveFromCartServlet extends HttpServlet {
+
     CartService cartService;
+    UserService userService;
 
     @Override
     public void init() throws ServletException {
@@ -33,9 +32,7 @@ public class AddToCartServlet extends HttpServlet {
         ProductDAO productDAO = new ProductDAO(entityManager);
         UserDAO userDAO = new UserDAO(entityManager);
         CartDAO cartDAO = new CartDAO(entityManager);
-
         this.cartService = new CartService(entityManager, cartDAO, productDAO, userDAO);
-        this.productService = new ProductService(entityManager, productDAO, cartDAO);
         this.userService = new UserService(entityManager, userDAO, cartDAO);
     }
 
@@ -45,28 +42,31 @@ public class AddToCartServlet extends HttpServlet {
             HttpSession session = req.getSession();
             Integer productId = Integer.parseInt(req.getParameter("id"));
             String username = (String) session.getAttribute("username");
-            if (username != null) {
-                User user = userService.findByUsername(username);
-                if (user != null) {
-                    Integer userid = user.getId();
-                    cartService.addProductToCart(userid, productId);
-                    Cart toBePassed = userService.GetRelatedCart(userid);
-                    req.setAttribute("cart", toBePassed);
-                }
+            if (username == null) {
+                throw new ServletException("missing username");
             }
-            // Reindirizza alla pagina del carrello invece di fare un forward
+            User user = userService.findByUsername(username);
+            if (user == null) {
+                throw new ServletException("requested user not found");
+            }
+            Integer userId = user.getId();
+            cartService.removeProductFromCart(userId, productId);
+            Cart updatedCart = userService.GetRelatedCart(userId);
+            req.setAttribute("cart", updatedCart);
+            // Redirect to the cart page
             resp.sendRedirect(req.getContextPath() + "/jsp/privata/cart.jsp");
-            String s = req.getContextPath() + "/jsp/privata/cart.jsp";
-            System.out.println(s);
-        } catch (NumberFormatException e) {
-            System.out.println(e.getMessage());
+        }catch (ServletException e) {
+            System.out.println("Error parsing User Data: " + e.getMessage());
             e.printStackTrace();
-            // Gestisci l'errore, magari reindirizzando a una pagina di errore
+            resp.sendRedirect(req.getContextPath() + "/error");
+        }
+        catch (NumberFormatException e) {
+            System.out.println("Error parsing product ID: " + e.getMessage());
+            e.printStackTrace();
             resp.sendRedirect(req.getContextPath() + "/error");
         } catch (RuntimeException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Error removing product from cart: " + e.getMessage());
             e.printStackTrace();
-            // Gestisci l'errore, magari reindirizzando a una pagina di errore
             resp.sendRedirect(req.getContextPath() + "/error");
         }
     }

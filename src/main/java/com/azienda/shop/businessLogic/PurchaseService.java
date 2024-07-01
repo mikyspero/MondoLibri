@@ -50,7 +50,6 @@ public class PurchaseService extends AbstractService<Purchase> {
             if (product.getQuantity() < quantity) {
                 throw new IllegalStateException("Not enough stock for product: " + product.getName());
             }
-
             // Create the purchase
             Purchase purchase = new Purchase(new Date(), product, user);
             Purchase createdPurchase = insert(purchase);

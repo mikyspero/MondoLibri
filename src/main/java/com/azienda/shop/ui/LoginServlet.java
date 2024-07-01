@@ -21,16 +21,17 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        UserService service = (UserService) request.getServletContext().getAttribute("userService");
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        try {
+            UserService service = (UserService) request.getServletContext().getAttribute("userService");
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
 //        User user = new User(username, password);
-        service.loginWithUser(username, password);
-        HttpSession session = request.getSession();
-        session.setAttribute("username", username);
-        response.sendRedirect("index");
+            service.loginWithUser(username, password);
+            HttpSession session = request.getSession();
+            session.setAttribute("username", username);
+            response.sendRedirect("index");
 
-        // Dummy authentication logic
+            // Dummy authentication logic
 //        if ("admin".equals(username) && "password".equals(password)) {
 //            HttpSession session = request.getSession();
 //            session.setAttribute("username", username);
@@ -39,6 +40,11 @@ public class LoginServlet extends HttpServlet {
 //            request.setAttribute("errorMessage", "Invalid username or password");
 //            request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
 //        }
+        } catch (IOException e) {
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override

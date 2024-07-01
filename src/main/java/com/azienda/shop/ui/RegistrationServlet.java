@@ -37,6 +37,8 @@ public class RegistrationServlet extends HttpServlet {
 
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
+        } catch(Exception e){
+
         }
     }
 

@@ -12,12 +12,19 @@ import java.io.IOException;
 @WebServlet("/logout")
 public class LogoutServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        HttpSession session = request.getSession(false); // Ottieni la sessione esistente senza crearne una nuova
-        if (session != null) {
-            session.invalidate(); // Invalida la sessione
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        try {
+            HttpSession session = request.getSession(false); // Ottieni la sessione esistente senza crearne una nuova
+            if (session != null) {
+                session.invalidate(); // Invalida la sessione
+            }
+            response.sendRedirect("index"); // Reindirizza alla pagina di login
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (Exception e){
+
         }
-        response.sendRedirect("index"); // Reindirizza alla pagina di login
     }
 }

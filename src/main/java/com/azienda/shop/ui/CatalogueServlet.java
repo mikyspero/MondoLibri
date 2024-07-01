@@ -33,16 +33,24 @@ public class CatalogueServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String keyword = req.getParameter("keyword");
-        Double minPrice = parsePrice(req.getParameter("minPrice"));
-        Double maxPrice = parsePrice(req.getParameter("maxPrice"));
-        List<Product> products = searchProducts(keyword, minPrice, maxPrice);
-        for (Product product : products) {
-            System.out.println(product);
+        try {
+            String keyword = req.getParameter("keyword");
+            Double minPrice = parsePrice(req.getParameter("minPrice"));
+            Double maxPrice = parsePrice(req.getParameter("maxPrice"));
+            List<Product> products = searchProducts(keyword, minPrice, maxPrice);
+            for (Product product : products) {
+                System.out.println(product);
+            }
+            System.out.println(products.size());
+            req.setAttribute("products", products);
+            req.getRequestDispatcher("/jsp/catalogo.jsp").forward(req, resp);
+        } catch (ServletException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (Exception e){
+
         }
-        System.out.println(products.size());
-        req.setAttribute("products", products);
-        req.getRequestDispatcher("/jsp/catalogo.jsp").forward(req, resp);
     }
 
     private List<Product> searchProducts(String keyword, Double minPrice, Double maxPrice) {
