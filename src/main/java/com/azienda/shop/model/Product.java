@@ -110,6 +110,16 @@ public class Product {
         this.language = language;
     }
 
+    public Product(String name, Author author, Genre genere, Double price, int quantity, String description, String language) {
+        this.name = name;
+        this.author = author;
+        this.genre = genere;
+        this.price = price;
+        this.quantity = quantity;
+        this.description = description;
+        this.language = language;
+    }
+
     /**
      * Retrieves the ID of the product.
      * @return ID of the product.

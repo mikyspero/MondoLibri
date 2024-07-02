@@ -2,6 +2,7 @@ package com.azienda.shop.factories;
 
 import com.azienda.shop.businessLogic.*;
 import com.azienda.shop.dao.*;
+import com.azienda.shop.model.Genre;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -58,12 +59,29 @@ public class ServiceFactory {
         );
     }
 
+    public AuthorService getAuthorService(){
+        return new AuthorService(
+                daoFactory.getEntityManager(),
+                daoFactory.getAuthorDAO()
+        );
+    }
+    public GenreService getGenreService() {
+        return new GenreService(
+                daoFactory.getEntityManager(),
+                daoFactory.getGenreDAO()
+        );
+    }
+
+
     private static class DaoFactory {
         private final EntityManager em;
         private CartDAO cartDAO;
         private ProductDAO productDAO;
         private PurchaseDAO purchaseDAO;
         private UserDAO userDAO;
+        private RoleDAO roleDAO;
+        private AuthorDAO authorDAO;
+        private GenreDAO genreDAO;
 
         private DaoFactory(EntityManager em) {
             this.em = em;
@@ -90,6 +108,10 @@ public class ServiceFactory {
         public RoleDAO getRoleDAO() {
             return new RoleDAO(em);
         }
+
+        public AuthorDAO getAuthorDAO() {return new AuthorDAO(em);}
+
+        public GenreDAO getGenreDAO() {return new GenreDAO(em);}
 
         public EntityManager getEntityManager() {
             return em;

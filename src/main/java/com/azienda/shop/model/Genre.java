@@ -36,6 +36,10 @@ public class Genre {
         this.name = name;
     }
 
+    public Genre(String genreString) {
+        this.name = genreString;
+    }
+
     /**
      * Retrieves the list of products associated with this genre.
      * @return List of products associated with the genre.

@@ -19,6 +19,12 @@ public class Author {
     @OneToMany(mappedBy = "author")
     private List<Product> products; // List of products associated with the author
 
+    public Author() {}
+
+    public Author(String name) {
+        this.name = name;
+    }
+
     /**
      * Retrieves the list of products associated with this author.
      *

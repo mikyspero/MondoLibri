@@ -60,13 +60,13 @@ public class ProductServlet extends HttpServlet {
         String description = req.getParameter("description");
         String language = req.getParameter("language");
         Product product = new Product(name, price, quantity, description, language);
-        Product createdProduct = productService.createProduct(product, user);
+        Product createdProduct = productService.createProduct(product);
     }
 
 
 
     private void deleteProduct(HttpServletRequest req, HttpServletResponse resp, User user) throws Exception {
         Integer id = Integer.parseInt(req.getParameter("id"));
-        productService.deleteProduct(id, user);
+        productService.deleteProduct(id);
     }
 }

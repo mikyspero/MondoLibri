@@ -1,41 +1,39 @@
 package com.azienda.shop.ui;
 
-import java.io.IOException;
 
-import jakarta.servlet.Filter;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
+import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
-@WebFilter("/html/privata/*")
+import java.io.IOException;
+
+@WebFilter("/adminpanel")
 public class AccessAdminFilter implements Filter {
 
     @Override
-    public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain arg2)
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
-        try {
-            HttpServletRequest httpRequest=(HttpServletRequest) arg0;
-            //chiave
-            String sessione=(String)httpRequest.getSession().getAttribute("loggato");
-
-            //se ti sei loggato ti faccio andare avanti
-            if(sessione != null) {
-                //ti butto fuori
-                arg0.getRequestDispatcher("/html/pubblica/Login.html").forward(arg0, arg1);
-
-            }else {
-                arg2.doFilter(arg0, arg1);
-
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            //ti butto fuori
-            arg0.getRequestDispatcher("/html/pubblica/Login.html").forward(arg0, arg1);
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        HttpServletResponse httpResponse = (HttpServletResponse) response;
+        HttpSession session = httpRequest.getSession(false);
+        Object usernameAttr = session.getAttribute("username");
+        if(usernameAttr == null) {
+            httpResponse.sendRedirect(httpRequest.getContextPath() + "/notadmin");
+            return;
         }
-
+        String username = usernameAttr.toString();
+        if (username == null || !("admin").equals(username)) {
+            httpResponse.sendRedirect(httpRequest.getContextPath() + "/notadmin");
+            return;
+        }
+        chain.doFilter(request, response);
     }
 
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {}
+
+    @Override
+    public void destroy() {}
 }

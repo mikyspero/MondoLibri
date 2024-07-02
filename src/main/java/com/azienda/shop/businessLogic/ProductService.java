@@ -46,11 +46,10 @@ public class ProductService extends AbstractService<Product> {
     /**
      * Creates a new product in the database.
      * @param product Product object to be created.
-     * @param user User performing the operation.
      * @return The created Product object.
      * @throws Exception If an error occurs during the creation process.
      */
-    public Product createProduct(Product product, User user) throws Exception {
+    public Product createProduct(Product product) throws Exception {
         return executeTransaction(() -> {
             Product sameName = ((ProductDAO) this.getDao()).findByName(product.getName());
             if (sameName != null) {
@@ -79,9 +78,8 @@ public class ProductService extends AbstractService<Product> {
     /**
      * Deletes a product from the database.
      * @param productId ID of the product to be deleted.
-     * @param user User performing the operation.
      */
-    public void deleteProduct(Integer productId, User user) {
+    public void deleteProduct(Integer productId) {
         executeTransaction(() -> {
             Product product = ((ProductDAO) getDao()).findById(productId);
             if (product == null) {

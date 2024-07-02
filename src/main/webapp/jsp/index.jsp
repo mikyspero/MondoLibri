@@ -51,6 +51,9 @@
     <div class="navbar">
         <h2><a href="${pageContext.request.contextPath}/cart">🛒 Carrello</a></h2>
     </div>
+    <div class="navbar">
+        <h2> <a href="${pageContext.request.contextPath}/adminpanel">ADMIN</a></h2>
+    </div>
 </header>
 
 <div class="logo">
