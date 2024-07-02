@@ -40,10 +40,10 @@ public class RegistrationServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
 
-            String username = request.getParameter("username");
-            String password = request.getParameter("password");
-            String email = request.getParameter("email");
-            String address = request.getParameter("address");
+            String username = request.getParameter("registration_username");
+            String password = request.getParameter("registration_password");
+            String email = request.getParameter("registration_email");
+            String address = request.getParameter("registration_address");
             Role role = roleService.retrieveById(2);
 
             User user = User.createInstance(role,username,password,email,address);

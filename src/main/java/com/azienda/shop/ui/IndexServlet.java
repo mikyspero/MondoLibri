@@ -24,7 +24,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.io.IOException;
 
-@WebServlet("/index")
+@WebServlet("/index2")
 public class IndexServlet extends HttpServlet {
     UserService userService;
     CartService cartService;

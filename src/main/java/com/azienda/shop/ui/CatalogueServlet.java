@@ -17,7 +17,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-@WebServlet("/catalogo")
+@WebServlet("/index")
 public class CatalogueServlet extends HttpServlet {
     ProductService productService;
 
@@ -43,7 +43,7 @@ public class CatalogueServlet extends HttpServlet {
             }
             System.out.println(products.size());
             req.setAttribute("products", products);
-            req.getRequestDispatcher("/jsp/catalogo.jsp").forward(req, resp);
+            req.getRequestDispatcher("/jsp/index.jsp").forward(req, resp);
         } catch (ServletException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
