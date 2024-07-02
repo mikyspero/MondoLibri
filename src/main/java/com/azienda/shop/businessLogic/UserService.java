@@ -3,10 +3,10 @@ package com.azienda.shop.businessLogic;
 import com.azienda.shop.dao.CartDAO;
 import com.azienda.shop.dao.UserDAO;
 import com.azienda.shop.exceptions.AuthenticationException;
-import com.azienda.shop.exceptions.UserAlreadyExistsException;
 import com.azienda.shop.model.Cart;
 import com.azienda.shop.model.User;
 import com.azienda.shop.utils.PasswordHasher;
+import javassist.NotFoundException;
 
 import javax.persistence.EntityManager;
 import java.security.NoSuchAlgorithmException;
@@ -32,7 +32,7 @@ public class UserService extends AbstractService<User> {
         this.cart = cart;
     }
 
-    /**
+        /**
      * Checks if user registration is allowed by verifying the uniqueness of username and email.
      *
      * @param toBeRegistered User object containing registration details.
@@ -43,13 +43,13 @@ public class UserService extends AbstractService<User> {
         // Check if there's an existing user with the same username
         User sameName = ((UserDAO) getDao()).findByName(toBeRegistered.getUsername());
         if (sameName != null) {
-            throw new UserAlreadyExistsException("Username already exists");
+            throw new RuntimeException("Username already exists");
         }
 
         // Check if there's an existing user with the same email
         User sameMail = ((UserDAO) getDao()).findByEmail(toBeRegistered.getEmail());
         if (sameMail != null) {
-            throw new UserAlreadyExistsException("Email already in use");
+            throw new RuntimeException("Email already in use");
         }
 
         return true;
@@ -130,7 +130,11 @@ public class UserService extends AbstractService<User> {
         });
     }
     public Cart GetRelatedCart(Integer id) {
-        return this.retrieveById(id).getCart();
+        try {
+            return this.retrieveById(id).getCart();
+        } catch (NotFoundException e) {
+            throw new RuntimeException("User not found with the provided id");
+        }
     }
 
 

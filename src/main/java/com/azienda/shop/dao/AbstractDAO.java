@@ -1,6 +1,9 @@
 package com.azienda.shop.dao;
 
+import com.azienda.shop.exceptions.DataAccessException;
+
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 import java.util.List;
 
 /**
@@ -41,16 +44,20 @@ public abstract class AbstractDAO<T> implements DAOinterface<T> {
      * Persists a new entity instance to the database.
      * @param t The entity instance to be persisted.
      * @return The persisted entity instance.
+     * @throws DataAccessException if there is an error while creating the entity
      */
     @Override
-    public T create(T t) {
-        entityManager.persist(t);
-        return t;
+    public T create(T t) throws DataAccessException {
+        try {
+            entityManager.persist(t);
+            return t;
+        } catch (PersistenceException e) {
+            throw new DataAccessException("Error while creating " + getEntityClass().getSimpleName(), e);
+        }
     }
 
     /**
      * Returns the given entity instance without performing any operations.
-     * This method might not be useful as is and could be removed or modified.
      * @param t The entity instance to be returned.
      * @return The given entity instance.
      */
@@ -62,48 +69,72 @@ public abstract class AbstractDAO<T> implements DAOinterface<T> {
     /**
      * Finds all instances of the entity type.
      * @return A list of all instances of type T.
+     * @throws DataAccessException if there is an error while finding all entities
      */
-    public List<T> findAll() {
-        return entityManager.createQuery("SELECT e FROM " + getEntityClass().getSimpleName() + " e", getEntityClass())
-                .getResultList();
+    public List<T> findAll() throws DataAccessException {
+        try {
+            return entityManager.createQuery("SELECT e FROM " + getEntityClass().getSimpleName() + " e", getEntityClass())
+                    .getResultList();
+        } catch (PersistenceException e) {
+            throw new DataAccessException("Error while finding all " + getEntityClass().getSimpleName() + " instances", e);
+        }
     }
 
     /**
      * Finds an entity instance by its ID.
      * @param id The ID of the entity to find.
      * @return The entity instance with the specified ID, or null if not found.
+     * @throws DataAccessException if there is an error while finding the entity by ID
      */
-    public T findById(Integer id) {
-        return entityManager.find(getEntityClass(), id);
+    public T findById(Integer id) throws DataAccessException {
+        try {
+            return entityManager.find(getEntityClass(), id);
+        } catch (PersistenceException e) {
+            throw new DataAccessException("Error while finding " + getEntityClass().getSimpleName() + " by ID", e);
+        }
     }
 
     /**
      * Checks if an entity instance is managed by the EntityManager.
      * @param t The entity instance to check.
      * @return true if the entity is managed (exists in the persistence context), false otherwise.
+     * @throws DataAccessException if there is an error while checking existence
      */
-    public boolean exist(T t) {
-        return entityManager.contains(t);
+    public boolean exist(T t) throws DataAccessException {
+        try {
+            return entityManager.contains(t);
+        } catch (PersistenceException e) {
+            throw new DataAccessException("Error while checking if " + getEntityClass().getSimpleName() + " exists", e);
+        }
     }
 
     /**
      * Updates an existing entity instance in the database.
      * @param t The entity instance to be updated.
      * @return The updated entity instance.
+     * @throws DataAccessException if there is an error while updating the entity
      */
     @Override
-    public T update(T t) {
-        entityManager.merge(t);
-        return t;
+    public T update(T t) throws DataAccessException {
+        try {
+            return entityManager.merge(t);
+        } catch (PersistenceException e) {
+            throw new DataAccessException("Error while updating " + getEntityClass().getSimpleName(), e);
+        }
     }
 
     /**
      * Removes an entity instance from the database.
      * @param t The entity instance to be deleted.
+     * @throws DataAccessException if there is an error while deleting the entity
      */
     @Override
-    public void delete(T t) {
-        entityManager.remove(t);
+    public void delete(T t) throws DataAccessException {
+        try {
+            entityManager.remove(t);
+        } catch (PersistenceException e) {
+            throw new DataAccessException("Error while deleting " + getEntityClass().getSimpleName(), e);
+        }
     }
 
     /**
@@ -114,4 +145,5 @@ public abstract class AbstractDAO<T> implements DAOinterface<T> {
         return entityManager;
     }
 }
+
 

@@ -8,6 +8,7 @@ import java.util.List;
  * Each Role can have multiple associated users.
  */
 @Entity
+@Table(name="role")
 public class Role {
 
     @Id

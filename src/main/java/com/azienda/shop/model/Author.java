@@ -8,6 +8,7 @@ import java.util.List;
  * This class is mapped to a database table using JPA annotations.
  */
 @Entity
+@Table(name = "author")
 public class Author {
 
     @Id

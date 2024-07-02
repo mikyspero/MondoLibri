@@ -9,6 +9,7 @@ import java.util.Date;
  * Each Purchase is associated with a User, a Product, and a purchase date.
  */
 @Entity
+@Table(name = "purchase")
 public class Purchase {
 
     @Id

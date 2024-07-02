@@ -40,22 +40,28 @@ public class IndexServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        String username = (String) session.getAttribute("username");
-        if (username != null) {
-            User user = userService.findByUsername(username);
-            if (user != null) {
-                Integer userid = user.getId();
-                Cart toBePassed = userService.GetRelatedCart(userid);
-                request.setAttribute("cart", toBePassed);
+        try {
+            HttpSession session = request.getSession();
+            String username = (String) session.getAttribute("username");
+            if (username != null) {
+                User user = userService.findByUsername(username);
+                if (user != null) {
+                    Integer userid = user.getId();
+                    Cart toBePassed = userService.GetRelatedCart(userid);
+                    request.setAttribute("cart", toBePassed);
+                }
             }
-        }
 //        HttpSession session = request.getSession(false);
 //        if (session == null || session.getAttribute("username") == null) {
 //            response.sendRedirect("index");
 //            return;
 //        }
 
-        request.getRequestDispatcher("/jsp/index.jsp").forward(request, response);
+            request.getRequestDispatcher("/jsp/index.jsp").forward(request, response);
+        } catch (ServletException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

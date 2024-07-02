@@ -53,9 +53,9 @@ public class RegistrationServlet extends HttpServlet {
             response.sendRedirect("index");
 
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         } catch(Exception e){
-
+            e.printStackTrace();
         }
     }
 
