@@ -6,6 +6,7 @@ import com.azienda.shop.exceptions.AuthenticationException;
 import com.azienda.shop.model.Cart;
 import com.azienda.shop.model.User;
 import com.azienda.shop.utils.PasswordHasher;
+import javassist.NotFoundException;
 
 import javax.persistence.EntityManager;
 import java.security.NoSuchAlgorithmException;
@@ -129,7 +130,11 @@ public class UserService extends AbstractService<User> {
         });
     }
     public Cart GetRelatedCart(Integer id) {
-        return this.retrieveById(id).getCart();
+        try {
+            return this.retrieveById(id).getCart();
+        } catch (NotFoundException e) {
+            throw new RuntimeException("User not found with the provided id");
+        }
     }
 
 

@@ -35,7 +35,7 @@ public class AdminPanelServlet extends HttpServlet {
         try {
             request.getRequestDispatcher("/jsp/privata/admin/adminpanel.jsp").forward(request, response);
         } catch (jakarta.servlet.ServletException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 

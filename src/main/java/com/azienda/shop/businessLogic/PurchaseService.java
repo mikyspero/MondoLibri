@@ -3,10 +3,13 @@ package com.azienda.shop.businessLogic;
 import com.azienda.shop.dao.PurchaseDAO;
 import com.azienda.shop.dao.CartDAO;
 import com.azienda.shop.dao.ProductDAO;
+import com.azienda.shop.exceptions.DataAccessException;
 import com.azienda.shop.model.Purchase;
 import com.azienda.shop.model.Cart;
 import com.azienda.shop.model.Product;
 import com.azienda.shop.model.User;
+import javassist.NotFoundException;
+import org.hibernate.service.spi.ServiceException;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
@@ -45,27 +48,33 @@ public class PurchaseService extends AbstractService<Purchase> {
      * @throws Exception if there is an issue creating the purchase.
      */
     public Purchase createPurchase(User user, Product product) throws Exception {
-        return executeTransaction(() -> {
-            // Check if there's enough stock
-            if (product.getQuantity() < 1) {
-                throw new IllegalStateException("Not enough stock for product: " + product.getName());
-            }
-            Date currentDate = new Date(); // Get the current date
-            // Create the purchase
-            Purchase purchase = new Purchase(currentDate, product, user);
+        try {
+            return executeTransaction(() -> {
+                // Check if there's enough stock
+                if (product.getQuantity() < 1) {
+                    throw new IllegalStateException("Not enough stock for product: " + product.getName());
+                }
+                Date currentDate = new Date(); // Get the current date
+                // Create the purchase
+                Purchase purchase = new Purchase(currentDate, product, user);
 
-            Purchase createdPurchase = insert(purchase);
-            // Update product stock
-            product.setQuantity(product.getQuantity() - 1);
-            productDAO.update(product);
-            // Remove the product from the user's cart if it exists
-            Cart cart = cartDAO.findByUser(user);
-            if (cart != null) {
-                cart.getProducts().remove(product);
-                cartDAO.update(cart);
-            }
-            return createdPurchase;
-        });
+                Purchase createdPurchase = insert(purchase);
+                // Update product stock
+                product.setQuantity(product.getQuantity() - 1);
+                productDAO.update(product);
+                // Remove the product from the user's cart if it exists
+                Cart cart = cartDAO.findByUser(user);
+                if (cart != null) {
+                    cart.getProducts().remove(product);
+                    cartDAO.update(cart);
+                }
+                return createdPurchase;
+            });
+        } catch (DataAccessException e) {
+            throw new RuntimeException("Errore during dta operations",e);
+        } catch (Exception e) {
+            throw new RuntimeException("unknown error during purchase",e);
+        }
     }
 
     /**
@@ -132,12 +141,17 @@ public class PurchaseService extends AbstractService<Purchase> {
      * @throws IllegalArgumentException if no purchase is found with the specified ID.
      */
     @Override
-    public Purchase retrieveById(Integer purchaseId) {
-        Purchase purchase = super.retrieveById(purchaseId);
-        if (purchase == null) {
-            throw new IllegalArgumentException("Purchase not found with id: " + purchaseId);
+    public Purchase retrieveById(Integer purchaseId) throws NotFoundException {
+
+        try {
+            Purchase purchase = super.retrieveById(purchaseId);
+            if (purchase == null) {
+                throw new IllegalArgumentException("Purchase not found with id: " + purchaseId);
+            }
+            return purchase;
+        } catch (NotFoundException e) {
+            throw  e;
         }
-        return purchase;
     }
 
     /**
@@ -147,18 +161,35 @@ public class PurchaseService extends AbstractService<Purchase> {
      * @throws Exception if there is an issue cancelling the purchase.
      */
     public void cancelPurchase(Integer purchaseId) throws Exception {
-        executeTransaction(() -> {
-            Purchase purchase = retrieveById(purchaseId);
+        try {
+            executeTransaction(() -> {
+                Purchase purchase = null;
+                try {
+                    purchase = retrieveById(purchaseId);
+                } catch (NotFoundException e) {
+                    throw new RuntimeException(e);
+                }
 
-            // Restore product stock
-            Product product = purchase.getProduct();
-            product.setQuantity(product.getQuantity() + 1); // Assuming quantity is always 1
-            productDAO.update(product);
+                // Restore product stock
+                Product product = purchase.getProduct();
+                product.setQuantity(product.getQuantity() + 1); // Assuming quantity is always 1
+                productDAO.update(product);
 
-            // Delete the purchase
-            delete(purchase);
-        });
+                // Delete the purchase
+                delete(purchase);
+
+            });
+        } catch (RuntimeException e) {
+            // Handle the NotFoundException properly
+            System.err.println("Purchase not found: " + e.getMessage());
+            throw new RuntimeException("Purchase not found with ID: " + purchaseId, e);
+        } catch (Exception e) {
+            // Handle any other exceptions
+            System.err.println("An unexpected error occurred: " + e.getMessage());
+            throw new RuntimeException("An error occurred while cancelling the purchase", e);
+        }
     }
+
 
     /**
      * Retrieves the total revenue generated from all purchases.
@@ -167,11 +198,22 @@ public class PurchaseService extends AbstractService<Purchase> {
      * @throws Exception if there is an issue retrieving the total revenue.
      */
     public double getTotalRevenue() throws Exception {
-        return executeTransaction(() -> {
-            List<Purchase> allPurchases = retrieveAll();
-            return allPurchases.stream()
-                    .mapToDouble(purchase -> purchase.getProduct().getPrice())
-                    .sum();
-        });
+        try {
+            return executeTransaction(() -> {
+                List<Purchase> allPurchases = retrieveAll();
+                return allPurchases.stream()
+                        .mapToDouble(purchase -> purchase.getProduct().getPrice())
+                        .sum();
+            });
+        } catch (DataAccessException e) {
+            // Handle DataAccessException properly, for example by logging the error and rethrowing it
+            System.err.println("Data access error occurred: " + e.getMessage());
+            throw e;  // Rethrow the exception to inform the caller about the data access issue
+        } catch (Exception e) {
+            // Handle any other exceptions
+            System.err.println("An unexpected error occurred: " + e.getMessage());
+            throw new RuntimeException("An error occurred while calculating total revenue", e);
+        }
     }
+
 }

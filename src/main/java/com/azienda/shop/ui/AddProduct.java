@@ -64,9 +64,9 @@ public class AddProduct extends HttpServlet {
             productService.createProduct(product);
             request.getRequestDispatcher("/jsp/privata/admin/adminpanel.jsp").forward(request, response);
         } catch (NumberFormatException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 

@@ -1,6 +1,11 @@
 package com.azienda.shop.businessLogic;
 
 import com.azienda.shop.dao.AbstractDAO;
+import com.azienda.shop.exceptions.DataAccessException;
+import com.azienda.shop.exceptions.PersistenceException;
+import javassist.NotFoundException;
+import org.hibernate.service.spi.ServiceException;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.util.List;
@@ -63,16 +68,7 @@ public abstract class AbstractService<T> {
         this.dao = dao;
     }
 
-    /**
-     * Executes a transactional action using the provided Supplier.
-     * If the transaction fails, it rolls back; otherwise, it commits.
-     *
-     * @param action Supplier action to execute within the transaction.
-     * @param <R>    Return type of the action.
-     * @return Result of the action.
-     * @throws RuntimeException if an exception occurs during the transaction.
-     */
-    protected <R> R executeTransaction(Supplier<R> action) {
+    protected <R> R executeTransaction(Supplier<R> action) throws ServiceException {
         EntityManager em = getManager();
         EntityTransaction transaction = em.getTransaction();
         boolean isNewTransaction = false;
@@ -90,22 +86,20 @@ public abstract class AbstractService<T> {
                 }
             }
             return result;
+        } catch (DataAccessException e) {
+            if (isNewTransaction && transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw new PersistenceException("Database operation failed", e);
         } catch (Exception e) {
             if (isNewTransaction && transaction.isActive()) {
                 transaction.rollback();
             }
-            throw e;
+            throw new ServiceException("Transaction failed", e);
         }
     }
 
-    /**
-     * Executes a transactional action using the provided Runnable.
-     * If the transaction fails, it rolls back; otherwise, it commits.
-     *
-     * @param action Runnable action to execute within the transaction.
-     * @throws RuntimeException if an exception occurs during the transaction.
-     */
-    protected void executeTransaction(Runnable action) {
+    protected void executeTransaction(Runnable action) throws ServiceException {
         EntityManager em = getManager();
         EntityTransaction transaction = em.getTransaction();
         try {
@@ -121,71 +115,68 @@ public abstract class AbstractService<T> {
                 transaction.rollback();
             }
 
+        } catch (DataAccessException e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw new PersistenceException("Database operation failed", e);
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
             }
-            throw e;
+            throw new ServiceException("Transaction failed", e);
         }
     }
 
-    /**
-     * Inserts a new entity into the database using the DAO.
-     *
-     * @param toBeInserted Entity to be inserted.
-     * @return Inserted entity.
-     */
-    public T insert(T toBeInserted) {
-        return executeTransaction(() -> dao.create(toBeInserted));
+    public T insert(T toBeInserted) throws ServiceException {
+        try {
+            return executeTransaction(() -> dao.create(toBeInserted));
+        } catch (DataAccessException e) {
+            throw new PersistenceException("Failed to insert entity", e);
+        }
     }
 
-    /**
-     * Retrieves an entity by its ID from the database using the DAO.
-     *
-     * @param id ID of the entity to retrieve.
-     * @return Retrieved entity or null if not found.
-     */
-    public T retrieveById(Integer id) {
-        return executeTransaction(() -> dao.findById(id));
+    public T retrieveById(Integer id) throws NotFoundException,PersistenceException {
+        try {
+            T entity = executeTransaction(() -> dao.findById(id));
+            if (entity == null) {
+                return null;
+            }
+            return entity;
+        } catch (DataAccessException e) {
+            throw new PersistenceException("Failed to retrieve entity with id: " + id, e);
+        }
     }
 
-    /**
-     * Retrieves all entities of this type from the database using the DAO.
-     *
-     * @return List of all entities.
-     */
-    public List<T> retrieveAll() {
-        return executeTransaction(() -> dao.findAll());
+    public List<T> retrieveAll() throws ServiceException {
+        try {
+            return executeTransaction(() -> dao.findAll());
+        } catch (DataAccessException e) {
+            throw new PersistenceException("Failed to retrieve all entities", e);
+        }
     }
 
-    /**
-     * Updates an existing entity in the database using the DAO.
-     *
-     * @param toBeUpdated Entity to be updated.
-     * @return Updated entity.
-     */
-    public T updateElement(T toBeUpdated) {
-        return executeTransaction(() -> dao.update(toBeUpdated));
+    public T updateElement(T toBeUpdated) throws ServiceException {
+        try {
+            return executeTransaction(() -> dao.update(toBeUpdated));
+        } catch (DataAccessException e) {
+            throw new PersistenceException("Failed to update entity", e);
+        }
     }
 
-    /**
-     * Checks if a given entity exists in the database using the DAO.
-     *
-     * @param toBeFound Entity to check for existence.
-     * @return True if the entity exists, false otherwise.
-     */
-    public boolean doesElementExist(T toBeFound) {
-        return dao.exist(toBeFound);
+    public boolean doesElementExist(T toBeFound) throws ServiceException {
+        try {
+            return executeTransaction(() -> dao.exist(toBeFound));
+        } catch (DataAccessException e) {
+            throw new PersistenceException("Failed to check if element exists", e);
+        }
     }
 
-    /**
-     * Deletes an entity from the database using the DAO.
-     *
-     * @param toBeDeleted Entity to be deleted.
-     */
-    public void delete(T toBeDeleted) {
-        executeTransaction(() -> dao.delete(toBeDeleted));
+    public void delete(T toBeDeleted) throws ServiceException {
+        try {
+            executeTransaction(() -> dao.delete(toBeDeleted));
+        } catch (DataAccessException e) {
+            throw new PersistenceException("Failed to delete entity", e);
+        }
     }
 }
-
-

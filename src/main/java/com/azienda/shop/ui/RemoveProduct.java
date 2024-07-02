@@ -40,8 +40,8 @@ public class RemoveProduct extends HttpServlet {
 
             productService.delete(product);
             request.getRequestDispatcher("/jsp/privata/admin/adminpanel.jsp").forward(request, response);
-        } catch (NumberFormatException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
