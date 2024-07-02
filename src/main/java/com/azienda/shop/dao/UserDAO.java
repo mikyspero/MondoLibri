@@ -1,9 +1,11 @@
 package com.azienda.shop.dao;
 
+import com.azienda.shop.exceptions.DataAccessException;
 import com.azienda.shop.model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.PersistenceException;
 import java.util.List;
 
 /**
@@ -33,14 +35,17 @@ public class UserDAO extends AbstractDAO<User> {
      * Finds a user by their username.
      * @param username The username of the user to be retrieved.
      * @return The User entity corresponding to the provided username, or null if not found.
+     * @throws DataAccessException if there is an error while finding the user by username.
      */
-    public User findByName(String username) {
+    public User findByName(String username) throws DataAccessException {
         try {
             return entityManager.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
                     .setParameter("username", username)
                     .getSingleResult();
         } catch (NoResultException e) {
             return null;
+        } catch (PersistenceException e) {
+            throw new DataAccessException("Error while finding User by username: " + username, e);
         }
     }
 
@@ -48,14 +53,17 @@ public class UserDAO extends AbstractDAO<User> {
      * Finds a user by their email address.
      * @param email The email address of the user to be retrieved.
      * @return The User entity corresponding to the provided email address, or null if not found.
+     * @throws DataAccessException if there is an error while finding the user by email.
      */
-    public User findByEmail(String email) {
+    public User findByEmail(String email) throws DataAccessException {
         try {
             return entityManager.createQuery("SELECT u FROM User u WHERE u.email = :email", User.class)
                     .setParameter("email", email)
                     .getSingleResult();
         } catch (NoResultException e) {
             return null;
+        } catch (PersistenceException e) {
+            throw new DataAccessException("Error while finding User by email: " + email, e);
         }
     }
 

@@ -10,6 +10,7 @@ import java.util.List;
  * can be associated with multiple Carts and Purchases.
  */
 @Entity
+@Table(name = "product")
 public class Product {
 
     @Id

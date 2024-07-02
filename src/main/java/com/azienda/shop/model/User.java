@@ -11,23 +11,29 @@ import java.util.List;
  * Each User can have a role, a cart, and multiple purchases associated with them.
  */
 @Entity
+@Table(name = "user")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(unique = true, nullable = false)
+    @Column(name = "username", nullable = false, length = 20, unique = true)
     private String username;
 
-    @Column(nullable = false)
+    @Column(name = "password", nullable = false, length = 100)
     private String password;
 
-    @Column(unique = true, nullable = false)
+    @Column(name = "email", nullable = false, length = 50, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column(name = "address", nullable = false, length = 255)
     private String address;
+
+    @ManyToOne
+    @JoinColumn(name = "id_role", referencedColumnName = "id")
+    private Role role;
 
     @OneToMany(mappedBy = "user")
     private List<Purchase> purchases;
@@ -35,9 +41,6 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Cart cart;
 
-    @ManyToOne
-    @JoinColumn(name = "id_role")
-    private Role role;
 
     /**
      * Constructor that accepts address, email, password, and username.

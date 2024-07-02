@@ -1,10 +1,12 @@
 package com.azienda.shop.dao;
 
+import com.azienda.shop.exceptions.DataAccessException;
 import com.azienda.shop.model.Cart;
 import com.azienda.shop.model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.PersistenceException;
 import java.util.List;
 
 /**
@@ -25,14 +27,17 @@ public class CartDAO extends AbstractDAO<Cart> {
      * Finds a Cart entity by the associated User.
      * @param user The User whose cart is to be found.
      * @return The Cart associated with the specified User, or null if not found.
+     * @throws DataAccessException if there is an error while finding the cart by user
      */
-    public Cart findByUser(User user) {
+    public Cart findByUser(User user) throws DataAccessException {
         try {
             return entityManager.createQuery("SELECT c FROM Cart c WHERE c.user.id = :userId", Cart.class)
                     .setParameter("userId", user.getId())
                     .getSingleResult();
         } catch (NoResultException e) {
             return null;
+        } catch (PersistenceException e) {
+            throw new DataAccessException("Error while finding Cart for user id: " + user.getId(), e);
         }
     }
 

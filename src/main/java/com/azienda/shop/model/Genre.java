@@ -8,6 +8,7 @@ import java.util.List;
  * Each Genre can have multiple associated products.
  */
 @Entity
+@Table(name = "genre")
 public class Genre {
 
     @Id
