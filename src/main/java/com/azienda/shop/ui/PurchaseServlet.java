@@ -37,6 +37,7 @@ public class PurchaseServlet extends HttpServlet {
         ServiceFactory factory = ServiceFactory.getInstance(emf);
         this.productService = factory.getProductService();
         this.userService = factory.getUserService();
+        this.purchaseService = factory.getPurchaseService();
 
     }
 
