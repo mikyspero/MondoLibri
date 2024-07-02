@@ -1,5 +1,6 @@
 package com.azienda.shop.dao;
 
+import com.azienda.shop.exceptions.DataAccessException;
 import com.azienda.shop.model.Author;
 import com.azienda.shop.model.Genre;
 
@@ -20,11 +21,17 @@ public class GenreDAO extends AbstractDAO<Genre> {
                     .getSingleResult();
         } catch (NoResultException e) {
             return null;
+        } catch(Exception e){
+            throw new DataAccessException("Error finding genre", e);
         }
     }
 
     public List<Genre> findAll() {
-        return entityManager.createQuery("SELECT u FROM Genre u", Genre.class).getResultList();
+        try {
+            return entityManager.createQuery("SELECT u FROM Genre u", Genre.class).getResultList();
+        } catch(Exception e){
+            throw new DataAccessException("Error finding genre", e);
+        }
     }
 
     @Override
