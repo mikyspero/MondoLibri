@@ -216,7 +216,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="loginModalLabel">Accedi</h5>
+                <h5 class="modal-title" id="loginModalLabel">Accedi ora </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -229,7 +229,7 @@
                         <label for="login_password" class="form-label">Password</label>
                         <input type="password" class="form-control" id="login_password" name="login_password" required>
                     </div>
-                    <button type="submit" class="btn btn-primary" value="Login">Accedi</button>
+                    <button type="submit" class="btn btn-outline-dark" value="Login">Accedi</button>
                 </form>
             </div>
         </div>
@@ -242,7 +242,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="registerModalLabel">Registrati</h5>
+                <h5 class="modal-title" id="registerModalLabel">Registrati adesso</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -263,7 +263,7 @@
                         <label for="registration_password" class="form-label">Password</label>
                         <input type="password" class="form-control" id="registration_password" placeholder="Inserisci la tua password" name="registration_address" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Registrati</button>
+                    <button type="submit" class="btn btn-outline-dark">Registrati</button>
                 </form>
             </div>
         </div>

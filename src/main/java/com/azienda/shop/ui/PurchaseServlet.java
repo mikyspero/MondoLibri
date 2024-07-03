@@ -61,7 +61,10 @@ public class PurchaseServlet extends HttpServlet {
             if(product == null) {
                 throw new ServletException("Product not found");
             }
+            req.setAttribute("product", product);
+            req.setAttribute("user", user);
             purchaseService.createPurchase(user,product);
+            req.getRequestDispatcher("/jsp/confermaAcquisto.jsp").forward(req, resp);
             //Write sending code here
 
         } catch(ServletException e){
