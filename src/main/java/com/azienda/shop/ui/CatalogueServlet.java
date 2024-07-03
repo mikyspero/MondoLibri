@@ -44,6 +44,7 @@ public class CatalogueServlet extends HttpServlet {
             System.out.println(products.size());
             req.setAttribute("products", products);
             req.getRequestDispatcher("/jsp/index.jsp").forward(req, resp);
+
         } catch (ServletException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {

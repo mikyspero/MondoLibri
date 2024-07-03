@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebFilter("/adminpanel")
+@WebFilter("/alluser")
 public class AccessAdminFilter implements Filter {
 
     @Override

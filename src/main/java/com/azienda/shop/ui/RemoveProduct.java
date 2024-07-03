@@ -39,7 +39,7 @@ public class RemoveProduct extends HttpServlet {
             }
 
             productService.delete(product);
-            request.getRequestDispatcher("/jsp/privata/admin/adminpanel.jsp").forward(request, response);
+            request.getRequestDispatcher("admincatalogue").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
         }

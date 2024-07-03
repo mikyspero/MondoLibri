@@ -6,7 +6,8 @@ import com.azienda.shop.model.Cart;
 import com.azienda.shop.model.Product;
 import com.azienda.shop.model.User;
 import com.azienda.shop.exceptions.ProductNotFoundException;
-
+import com.azienda.shop.utils.BlobConverter;
+import java.sql.Blob;
 import javax.persistence.EntityManager;
 import java.util.List;
 
@@ -58,6 +59,27 @@ public class ProductService extends AbstractService<Product> {
             return ((ProductDAO) getDao()).create(product);
         });
     }
+
+    public Product createProduct(Product product, String imagePath) throws Exception {
+        return executeTransaction(() -> {
+            try {
+                Product sameName = ((ProductDAO) this.getDao()).findByName(product.getName());
+                if (sameName != null) {
+                    throw new RuntimeException(sameName.getName() + " is already in the DB");
+                }
+                if (imagePath != null && !imagePath.isEmpty()) {
+                    Blob imageBlob = null;
+                    imageBlob = BlobConverter.generateBlob(imagePath);
+                    product.setImage(imageBlob);
+                }
+                return ((ProductDAO) getDao()).create(product);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+
 
     /**
      * Updates an existing product in the database.

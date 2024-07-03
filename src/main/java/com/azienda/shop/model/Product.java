@@ -22,6 +22,8 @@ public class Product {
     private int quantity;  // Quantity of the product
     private String description;  // Description of the product
     private String language;  // Language of the product
+    @Lob
+    @Column(name = "image", columnDefinition="BLOB")
     private Blob image;  // Image of the product
 
     @ManyToOne

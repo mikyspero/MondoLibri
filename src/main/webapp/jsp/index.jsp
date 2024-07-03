@@ -17,7 +17,7 @@
     <!-- INIZIO NAVBAR -->
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="${pageContext.request.contextPath}/jsp/index.jsp">
+            <a class="navbar-brand" href="${pageContext.request.contextPath}/index">
                 <img class="logo" src="${pageContext.request.contextPath}/img/LogoFinito.png" alt="">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -26,16 +26,19 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="${pageContext.request.contextPath}/jsp/index.jsp">Home</a>
+                        <a class="nav-link active" aria-current="page" href="${pageContext.request.contextPath}/index">Home</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <%
+                                boolean accesso;
                                 //HttpSession session = request.getSession(false);
                                 if (session == null || session.getAttribute("username") == null) {
                                     out.print("Accesso");
+                                    accesso = false;
                                 } else {
                                     out.print(session.getAttribute("username"));
+                                    accesso = true;
                                 }
                             %>
                         </a>
@@ -48,6 +51,18 @@
                             <% } %>
                         </ul>
                     </li>
+                    <%-- Sezione Admin visibile solo se loggato come admin --%>
+                    <% if (session != null && session.getAttribute("username") != null && session.getAttribute("username").equals("admin")) { %>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Area Amministratore
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/alluser">Utenti</a></li>
+                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admincatalogue">Prodotti</a></li>
+                        </ul>
+                    </li>
+                    <% } %>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Chi siamo</a>
                     </li>
@@ -73,7 +88,22 @@
                 <div id="user-info" class="ms-3">
                     <!-- Qui verrà visualizzato il nome dell'utente -->
                 </div>
-                <a class="btn btn-outline-dark border-0 ms-3" href="${pageContext.request.contextPath}/cart" role="button">
+                <%
+                    String href;
+                    String classe;
+                    String cart;
+                    if (accesso)
+                    {
+                        href = request.getContextPath();
+                        classe = "";
+                        cart = "/cart";
+                    } else {
+                        href = "#";
+                        classe = "data-bs-toggle=\"modal\" data-bs-target=\"#loginModal\"";
+                        cart = "";
+                    }
+                %>
+                <a class="btn btn-outline-dark border-0 ms-3" href="<%= href %><%= cart %>" <%= classe %> role="button">
                     <i class="bi bi-cart"></i> Carrello
                 </a>
             </div>
@@ -86,7 +116,7 @@
         <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel" data-interval="2000">
           <div class="carousel-inner">
             <div class="carousel-item active">
-              <img src="${pageContext.request.contextPath}/img/paragrafo.png" class="d-block w-100" alt="Immagine 1">
+              <img src="${pageContext.request.contextPath}/img/bannerhd.png" class="d-block w-100" alt="Immagine 1">
             </div>
             <div class="carousel-item">
               <img src="https://via.placeholder.com/800x400" class="d-block w-100" alt="Immagine 2">
@@ -130,10 +160,12 @@
                                 <h5 class="card-title"><%= product.getName() %></h5>
                                 <p class="card-text"><%= product.getDescription() %></p>
                                 <p class="card-text"><strong>Prezzo: <%= product.getPrice() %> €</strong></p>
+                                <% if (accesso) { %>
                                 <form action="${pageContext.request.contextPath}/addcart" method="POST">
                                     <input type="hidden" name="id" value="<%= product.getId() %>">
                                     <button type="submit" class="btn btn-outline-dark">Aggiungi al carrello</button>
                                 </form>
+                                <% } %>
                             </div>
                         </div>
                     </div>
@@ -239,7 +271,6 @@
             </div>
         </div>
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   </body>
 </html>

@@ -40,3 +40,7 @@ a {
     border-color: black !important; /* Colore nero */
     box-shadow: none !important; /* Rimuove l'ombra */
 }
+
+.immaginecarosel{
+    height: 600px;
+}
