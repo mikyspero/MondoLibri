@@ -1,73 +1,60 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.azienda.shop.model.Product, com.azienda.shop.model.Cart, java.util.List" %>
 <!DOCTYPE html>
-<html>
+<html lang="it">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrello</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/carrelloStyle.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
-<body class="bg-gray-100 p-8">
-<div class="container mx-auto">
-    <h2 class="text-2xl font-bold mb-6">Carrello</h2>
-    <%
-
-        Cart cart = (Cart) request.getAttribute("cart");
-        if (cart != null && !cart.getProducts().isEmpty()) {
-    %>
-    <table class="table-auto w-full bg-white rounded shadow-md">
-        <thead>
-        <tr>
-            <th class="px-4 py-2">ID Prodotto</th>
-            <th class="px-4 py-2">Nome</th>
-            <th class="px-4 py-2">Prezzo</th>
-            <th class="px-4 py-2">Rimuovi</th>
-        </tr>
-        </thead>
-        <tbody>
-        <%
-            for (Product product : cart.getProducts()) {
-        %>
-        <tr class="border-b">
-            <td class="px-4 py-2 text-center"><%= product.getId() %></td>
-            <td class="px-4 py-2 text-center"><%= product.getName() %></td>
-            <td class="px-4 py-2 text-center"><%= String.format("%.2f", product.getPrice()) %> €</td>
-            <td class="px-4 py-2 text-center">
-                <%
-
-                %>
-                <form action="${pageContext.request.contextPath}/removecart" method="post">
+<body>
+<!-- NON MODIFICARE ALTEZZA ALE-->
+<div class="container">
+    <div class="cart-container">
+        <h1 class="text-center">Il tuo carrello</h1>
+        <div id="cart-items">
+            <%
+                Cart cart = (Cart) request.getAttribute("cart");
+                if (cart != null && !cart.getProducts().isEmpty()) {
+                    for (Product product : cart.getProducts()) {
+            %>
+            <div class="cart-item">
+                <div class="cart-item-details">
+                    <div class="cart-item-name"><%= product.getName() %></div>
+                    <div class="cart-item-price">€<%= String.format("%.2f", product.getPrice()) %></div>
+                </div>
+                <form action="${pageContext.request.contextPath}/removecart" method="post" style="display: inline;">
                     <input type="hidden" name="id" value="<%= product.getId() %>">
-                <button type="submit">Rimuovi</button>
+                    <button type="submit" class="btn btn-outline-light border-0">Rimuovi</button>
                 </form>
-            </td>
-            <td class="px-4 py-2 text-center">
-                <%
-
-                %>
-                <form action="${pageContext.request.contextPath}/purchase" method="post">
+                <form action="${pageContext.request.contextPath}/purchase" method="post" style="display: inline;">
                     <input type="hidden" name="id" value="<%= product.getId() %>">
-                    <button type="submit">Acquista</button>
+                    <button type="submit" class="btn btn-outline-light border-0">Acquista</button>
                 </form>
-            </td>
-        </tr>
-        <%
-            }
-        %>
-        </tbody>
-    </table>
-    <div class="mt-4 text-right">
-    </div>
-    <%
-    } else {
-    %>
-    <p class="text-lg">Il tuo carrello è vuoto.</p>
-    <%
-        }
-    %>
-    <div class="mt-6">
-        <a href="<%= request.getContextPath() %>/index" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Torna al Catalogo</a>
+            </div>
+            <%
+                }
+            } else {
+            %>
+            <p class="text-center">Il tuo carrello è vuoto.</p>
+            <%
+                }
+            %>
+        </div>
+        <!-- Bottone Home -->
+        <div class="text-center mt-4">
+            <a href="${pageContext.request.contextPath}/index" class="btn btn-outline-light border-0">
+                <i class="fas fa-home"></i> Home
+            </a>
+        </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
