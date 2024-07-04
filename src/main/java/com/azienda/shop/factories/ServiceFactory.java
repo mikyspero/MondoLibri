@@ -7,11 +7,22 @@ import com.azienda.shop.model.Genre;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-public class ServiceFactory {
+public class ServiceFactory implements AutoCloseable {
+    private final EntityManager em;
     private final DaoFactory daoFactory;
 
+    // Services
+    private CartService cartService;
+    private ProductService productService;
+    private PurchaseService purchaseService;
+    private UserService userService;
+    private RoleService roleService;
+    private AuthorService authorService;
+    private GenreService genreService;
+
     private ServiceFactory(EntityManagerFactory emf) {
-        this.daoFactory = new DaoFactory(emf.createEntityManager());
+        this.em = emf.createEntityManager();
+        this.daoFactory = new DaoFactory(em);
     }
 
     public static ServiceFactory getInstance(EntityManagerFactory emf) {
@@ -19,59 +30,87 @@ public class ServiceFactory {
     }
 
     public CartService getCartService() {
-        return new CartService(
-                daoFactory.getEntityManager(),
-                daoFactory.getCartDAO(),
-                daoFactory.getProductDAO(),
-                daoFactory.getUserDAO()
-        );
+        if (cartService == null) {
+            cartService = new CartService(
+                    em,
+                    daoFactory.getCartDAO(),
+                    daoFactory.getProductDAO(),
+                    daoFactory.getUserDAO()
+            );
+        }
+        return cartService;
     }
 
     public ProductService getProductService() {
-        return new ProductService(
-                daoFactory.getEntityManager(),
-                daoFactory.getProductDAO(),
-                daoFactory.getCartDAO()
-        );
+        if (productService == null) {
+            productService = new ProductService(
+                    em,
+                    daoFactory.getProductDAO(),
+                    daoFactory.getCartDAO()
+            );
+        }
+        return productService;
     }
 
     public PurchaseService getPurchaseService() {
-        return new PurchaseService(
-                daoFactory.getEntityManager(),
-                daoFactory.getPurchaseDAO(),
-                daoFactory.getCartDAO(),
-                daoFactory.getProductDAO()
-        );
+        if (purchaseService == null) {
+            purchaseService = new PurchaseService(
+                    em,
+                    daoFactory.getPurchaseDAO(),
+                    daoFactory.getCartDAO(),
+                    daoFactory.getProductDAO()
+            );
+        }
+        return purchaseService;
     }
 
     public UserService getUserService() {
-        return new UserService(
-                daoFactory.getEntityManager(),
-                daoFactory.getUserDAO(),
-                daoFactory.getCartDAO()
-        );
+        if (userService == null) {
+            userService = new UserService(
+                    em,
+                    daoFactory.getUserDAO(),
+                    daoFactory.getCartDAO()
+            );
+        }
+        return userService;
     }
 
     public RoleService getRoleService() {
-        return new RoleService(
-                daoFactory.getEntityManager(),
-                daoFactory.getRoleDAO()
-        );
+        if (roleService == null) {
+            roleService = new RoleService(
+                    em,
+                    daoFactory.getRoleDAO()
+            );
+        }
+        return roleService;
     }
 
-    public AuthorService getAuthorService(){
-        return new AuthorService(
-                daoFactory.getEntityManager(),
-                daoFactory.getAuthorDAO()
-        );
+    public AuthorService getAuthorService() {
+        if (authorService == null) {
+            authorService = new AuthorService(
+                    em,
+                    daoFactory.getAuthorDAO()
+            );
+        }
+        return authorService;
     }
+
     public GenreService getGenreService() {
-        return new GenreService(
-                daoFactory.getEntityManager(),
-                daoFactory.getGenreDAO()
-        );
+        if (genreService == null) {
+            genreService = new GenreService(
+                    em,
+                    daoFactory.getGenreDAO()
+            );
+        }
+        return genreService;
     }
 
+    @Override
+    public void close() {
+        if (em != null && em.isOpen()) {
+            em.close();
+        }
+    }
 
     private static class DaoFactory {
         private final EntityManager em;
@@ -88,33 +127,52 @@ public class ServiceFactory {
         }
 
         public CartDAO getCartDAO() {
-
-            return new CartDAO(em);
+            if (cartDAO == null) {
+                cartDAO = new CartDAO(em);
+            }
+            return cartDAO;
         }
 
         public ProductDAO getProductDAO() {
-
-            return new ProductDAO(em);
+            if (productDAO == null) {
+                productDAO = new ProductDAO(em);
+            }
+            return productDAO;
         }
 
         public PurchaseDAO getPurchaseDAO() {
-            return new PurchaseDAO(em);
+            if (purchaseDAO == null) {
+                purchaseDAO = new PurchaseDAO(em);
+            }
+            return purchaseDAO;
         }
 
         public UserDAO getUserDAO() {
-            return new UserDAO(em);
+            if (userDAO == null) {
+                userDAO = new UserDAO(em);
+            }
+            return userDAO;
         }
 
         public RoleDAO getRoleDAO() {
-            return new RoleDAO(em);
+            if (roleDAO == null) {
+                roleDAO = new RoleDAO(em);
+            }
+            return roleDAO;
         }
 
-        public AuthorDAO getAuthorDAO() {return new AuthorDAO(em);}
+        public AuthorDAO getAuthorDAO() {
+            if (authorDAO == null) {
+                authorDAO = new AuthorDAO(em);
+            }
+            return authorDAO;
+        }
 
-        public GenreDAO getGenreDAO() {return new GenreDAO(em);}
-
-        public EntityManager getEntityManager() {
-            return em;
+        public GenreDAO getGenreDAO() {
+            if (genreDAO == null) {
+                genreDAO = new GenreDAO(em);
+            }
+            return genreDAO;
         }
     }
 }

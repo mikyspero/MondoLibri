@@ -33,8 +33,13 @@
     <p class="soon"><i class="fas fa-truck"></i> Arriverà presto</p>
     <!-- Bottone di ritorno alla home -->
     <div class="back-home">
-        <a href="${pageContext.request.contextPath}/index" class="btn btn-outline-dark">Torna alla Home</a>
+        <form action="${pageContext.request.contextPath}/index" method="POST">
+            <button type="submit" class="btn btn-outline-dark">Torna alla Home</button>
+        </form>
     </div>
+
+
+
 </div>
 </body>
 </html>

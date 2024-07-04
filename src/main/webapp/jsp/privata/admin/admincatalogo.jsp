@@ -111,42 +111,56 @@
 </nav>
 <!-- FINE NAVBAR -->
 
-<!-- INIZIO SEZIONE NOVITA -->
-<section class="sezione">
-    <div class="container d">
-        <div class="row d-flex text-center">
-            <h2>Aggiungi Prodotti:</h2>
+<!-- INIZIO SEZIONE LIBRI -->
+<!-- INIZIO SEZIONE AGGIUNTA -->
+<section class="sezione mt-5">
+    <div class="container">
+        <div class="row text-center mb-4">
+            <h2>Aggiungi Prodotti</h2>
         </div>
-        <div class="container">
-            <form action="addproduct" method="post">
-                <label for="name">Nome:</label>
-                <input type="text" id="name" name="name">
-
-                <label for="price">Prezzo:</label>
-                <input type="text" id="price" name="price">
-
-                <label for="quantity">Quantita:</label>
-                <input type="text" id="quantity" name="quantity">
-
-                <label for="author">Autore:</label>
-                <input type="text" id="author" name="author">
-
-                <label for="description">Descrizione:</label>
-                <input type="text" id="description" name="description">
-
-                <label for="language">Lingua:</label>
-                <input type="text" id="language" name="language">
-
-                <label for="genre">Genere:</label>
-                <input type="text" id="genre" name="genre">
-
-                <label for="imageURL">Immagine URL:</label>
-                <input type="text" id="imageURL" name="imageURL" required>
-
-                <button type="submit">Aggiungi</button>
+        <div class="container p-4 rounded" style="color: white; background-color: #3e3e3f;">
+            <form action="addproduct" method="post" class="row g-3">
+                <div class="col-md-6">
+                    <label for="name" class="form-label">Nome</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="price" class="form-label">Prezzo</label>
+                    <input type="number" step="0.01" class="form-control" id="price" name="price" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="quantity" class="form-label">Quantità</label>
+                    <input type="number" class="form-control" id="quantity" name="quantity" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="author" class="form-label">Autore</label>
+                    <input type="text" class="form-control" id="author" name="author" required>
+                </div>
+                <div class="col-md-12">
+                    <label for="description" class="form-label">Descrizione</label>
+                    <textarea class="form-control " id="description" name="description" rows="3" maxlength="250" placeholder="Massimo 250 Caratteri" required></textarea>
+                </div>
+                <div class="col-md-6">
+                    <label for="language" class="form-label">Lingua</label>
+                    <input type="text" class="form-control" id="language" name="language" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="genre" class="form-label">Genere</label>
+                    <input type="text" class="form-control" id="genre" name="genre" required>
+                </div>
+                <div class="col-md-12">
+                    <label for="imageURL" class="form-label">Immagine URL</label>
+                    <input type="text" class="form-control" id="imageURL" name="imageURL" required>
+                </div>
+                <div class="col-12 text-center">
+                    <button type="submit" class="btn btn-outline-dark border-0" style="color: white;">Aggiungi</button>
+                </div>
             </form>
         </div>
-        <h2>Prodotti già esistenti</h2>
+        <!-- FINE SEZIONE AGGIUNTA -->
+        <div class="row text-center mt-5">
+            <h2>Prodotti già esistenti</h2>
+        </div>
         <div class="container mt-5">
             <div class="row">
                 <%
@@ -156,7 +170,7 @@
                 %>
                 <div class="col-md-6 col-lg-3 ">
                     <div class="card" style="margin-top: 5px; margin-bottom: 5px;">
-                        <img src="https://via.placeholder.com/150" class="card-img-top" alt="Immagine 1">
+                        <img src="<%= product.getImage() %>" class="card-img-top" alt="ImmagineProdotto">
                         <div class="card-body text-center">
                             <h5 class="card-title"><%= product.getName() %></h5>
                             <p class="card-text"><%= product.getDescription() %></p>
@@ -178,7 +192,7 @@
         </div>
     </div>
 </section>
-<!-- FINE SEZIONE NOVITA -->
+<!-- FINE SEZIONE LIBRI -->
 
 <!-- INIZIO FOOTER -->
 <footer class="footer bg-dark text-light py-4">
@@ -256,7 +270,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="registration_address" class="form-label">Indirizzo</label>
-                        <input type="text" class="form-control" id="registration_address" placeholder="Inserisci il tuo indirizzo" name="registration_password" required>
+                        <input type="text" class="form-control" id="registration_address" placeholder="Inserisci il tuo indirizzo" name="registration_address" required>
                     </div>
                     <div class="mb-3">
                         <label for="registration_email" class="form-label">Email</label>
@@ -264,7 +278,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="registration_password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="registration_password" placeholder="Inserisci la tua password" name="registration_address" required>
+                        <input type="password" class="form-control" id="registration_password" placeholder="Inserisci la tua password" name="registration_password" required>
                     </div>
                     <button type="submit" class="btn btn-outline-dark">Registrati</button>
                 </form>

@@ -204,7 +204,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="registration_address" class="form-label">Indirizzo</label>
-                        <input type="text" class="form-control" id="registration_address" placeholder="Inserisci il tuo indirizzo" name="registration_password" required>
+                        <input type="text" class="form-control" id="registration_address" placeholder="Inserisci il tuo indirizzo" name="registration_address" required>
                     </div>
                     <div class="mb-3">
                         <label for="registration_email" class="form-label">Email</label>
@@ -212,7 +212,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="registration_password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="registration_password" placeholder="Inserisci la tua password" name="registration_address" required>
+                        <input type="password" class="form-control" id="registration_password" placeholder="Inserisci la tua password" name="registration_password" required>
                     </div>
                     <button type="submit" class="btn btn-outline-dark">Registrati</button>
                 </form>

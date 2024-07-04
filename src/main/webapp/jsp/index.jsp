@@ -86,7 +86,7 @@
                     <button class="btn btn-outline-dark border-0" type="submit">Cerca</button>
                 </form>
                 <div id="user-info" class="ms-3">
-                    <!-- Qui verrà visualizzato il nome dell'utente -->
+                    <!-- Qui verrà visualizzato il nome utente -->
                 </div>
                 <%
                     String href;
@@ -112,39 +112,39 @@
     <!-- FINE NAVBAR -->
 
     <!-- INIZIO CAROUSEL -->
-    <header class="header">
-        <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel" data-interval="2000">
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <img src="${pageContext.request.contextPath}/img/bannerhd.png" class="d-block w-100" alt="Immagine 1">
+    <header class="header d-none d-md-block">
+        <div id="carouselExampleCaptions" class="carousel slide d-none d-md-block" data-bs-ride="carousel" data-bs-interval="8000">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="${pageContext.request.contextPath}/img/bannerhd1.png" class="d-block w-100" alt="Immagine 1">
+                </div>
+                <div class="carousel-item">
+                    <img src="${pageContext.request.contextPath}/img/bannerhd2.png" class="d-block w-100" alt="Immagine 2">
+                </div>
+                <div class="carousel-item">
+                    <img src="${pageContext.request.contextPath}/img/bannerhd3.png" class="d-block w-100" alt="Immagine 3">
+                </div>
+                <div class="carousel-item">
+                    <img src="${pageContext.request.contextPath}/img/bannerhd4_2.png" class="d-block w-100" alt="Immagine 4">
+                </div>
             </div>
-            <div class="carousel-item">
-              <img src="https://via.placeholder.com/800x400" class="d-block w-100" alt="Immagine 2">
-            </div>
-            <div class="carousel-item">
-              <img src="https://via.placeholder.com/800x400" class="d-block w-100" alt="Immagine 3">
-            </div>
-            <div class="carousel-item">
-              <img src="https://via.placeholder.com/800x400" class="d-block w-100" alt="Immagine 4">
-            </div>
-          </div>
-          <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Precedente</span>
-          </a>
-          <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Successivo</span>
-          </a>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Precedente</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Successivo</span>
+            </button>
         </div>
-      </header>
+    </header>
     <!-- FINE CAROUSEL -->
 
-    <!-- INIZIO SEZIONE NOVITA -->
+    <!-- INIZIO SEZIONE LIBRI -->
     <section class="sezione">
         <div class="container d">
             <div class="row d-flex text-center">
-                <h2>Novità da non perdere</h2>
+                <h2>La nostra libreria</h2>
             </div>
             <div class="container mt-5">
                 <div class="row">
@@ -177,7 +177,7 @@
             </div>
         </div>
     </section>
-    <!-- FINE SEZIONE NOVITA -->
+    <!-- FINE SEZIONE LIBRI -->
 
     <!-- INIZIO FOOTER -->
     <footer class="footer bg-dark text-light py-4">
@@ -255,7 +255,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="registration_address" class="form-label">Indirizzo</label>
-                            <input type="text" class="form-control" id="registration_address" placeholder="Inserisci il tuo indirizzo" name="registration_password" required>
+                            <input type="text" class="form-control" id="registration_address" placeholder="Inserisci il tuo indirizzo" name="registration_address" required>
                         </div>
                         <div class="mb-3">
                             <label for="registration_email" class="form-label">Email</label>
@@ -263,7 +263,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="registration_password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="registration_password" placeholder="Inserisci la tua password" name="registration_address" required>
+                            <input type="password" class="form-control" id="registration_password" placeholder="Inserisci la tua password" name="registration_password" required>
                         </div>
                         <button type="submit" class="btn btn-outline-dark">Registrati</button>
                     </form>
