@@ -134,11 +134,14 @@
                 <label for="description">Descrizione:</label>
                 <input type="text" id="description" name="description">
 
-                <label for="language">lingua:</label>
+                <label for="language">Lingua:</label>
                 <input type="text" id="language" name="language">
 
-                <label for="genre">genere:</label>
+                <label for="genre">Genere:</label>
                 <input type="text" id="genre" name="genre">
+
+                <label for="imageURL">Immagine URL:</label>
+                <input type="text" id="imageURL" name="imageURL" required>
 
                 <button type="submit">Aggiungi</button>
             </form>

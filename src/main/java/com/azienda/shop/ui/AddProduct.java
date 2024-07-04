@@ -6,17 +6,21 @@ import com.azienda.shop.model.Author;
 import com.azienda.shop.model.Genre;
 import com.azienda.shop.model.Product;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.*;
 
 import javax.persistence.EntityManagerFactory;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 
 @WebServlet("/addproduct")
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024,  // 1 MB
+        maxFileSize = 1024 * 1024 * 5,    // 5 MB
+        maxRequestSize = 1024 * 1024 * 10 // 10 MB
+)
 public class AddProduct extends HttpServlet {
     ProductService productService;
     UserService userService;
@@ -39,15 +43,16 @@ public class AddProduct extends HttpServlet {
             HttpSession session = request.getSession();
             String authorString = request.getParameter("author");
             if (authorString == null) {
-                throw (new ServletException("You need an Author"));
+                throw new ServletException("You need an Author");
             }
             Author author = authorService.findAuthorByName(authorString);
             if (author == null) {
                 author = authorService.insert(new Author(authorString));
             }
+
             String genreString = request.getParameter("genre");
             if (genreString == null) {
-                throw (new ServletException("You need a Genre"));
+                throw new ServletException("You need a Genre");
             }
             Genre genre = genreService.findGenreByName(genreString);
             if (genre == null) {
@@ -59,10 +64,13 @@ public class AddProduct extends HttpServlet {
             Integer quantity = Integer.parseInt(request.getParameter("quantity"));
             String description = request.getParameter("description");
             String language = request.getParameter("language");
+            String imageURL = request.getParameter("imageURL");
 
-            Product product = new Product(name,author,genre,price,quantity,description,language);
+            Product product = new Product(name, author, genre, price, quantity, description, language, imageURL);
             productService.createProduct(product);
-            request.getRequestDispatcher("admincatalogue").forward(request, response);
+
+            request.getRequestDispatcher("/jsp/privata/admin/adminpanel.jsp").forward(request, response);
+
         } catch (NumberFormatException e) {
             e.printStackTrace();
         } catch (Exception e) {

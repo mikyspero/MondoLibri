@@ -60,26 +60,6 @@ public class ProductService extends AbstractService<Product> {
         });
     }
 
-    public Product createProduct(Product product, String imagePath) throws Exception {
-        return executeTransaction(() -> {
-            try {
-                Product sameName = ((ProductDAO) this.getDao()).findByName(product.getName());
-                if (sameName != null) {
-                    throw new RuntimeException(sameName.getName() + " is already in the DB");
-                }
-                if (imagePath != null && !imagePath.isEmpty()) {
-                    Blob imageBlob = null;
-                    imageBlob = BlobConverter.generateBlob(imagePath);
-                    product.setImage(imageBlob);
-                }
-                return ((ProductDAO) getDao()).create(product);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        });
-    }
-
-
 
     /**
      * Updates an existing product in the database.

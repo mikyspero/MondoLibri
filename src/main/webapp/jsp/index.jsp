@@ -155,7 +155,7 @@
                     %>
                     <div class="col-md-6 col-lg-3 ">
                         <div class="card" style="margin-top: 5px; margin-bottom: 5px;">
-                            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Immagine 1">
+                            <img src="<%= product.getImage() %>" class="card-img-top" alt="Immagine 1">
                             <div class="card-body text-center">
                                 <h5 class="card-title"><%= product.getName() %></h5>
                                 <p class="card-text"><%= product.getDescription() %></p>
