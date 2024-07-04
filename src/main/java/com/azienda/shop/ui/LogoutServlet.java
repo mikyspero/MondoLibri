@@ -22,8 +22,10 @@ public class LogoutServlet extends HttpServlet {
             }
             response.sendRedirect("index"); // Reindirizza alla pagina di login
         } catch (IOException e) {
+            response.sendRedirect("error");
             e.printStackTrace();
         } catch (Exception e){
+            response.sendRedirect("error");
             e.printStackTrace();
         }
     }

@@ -73,8 +73,10 @@ public class AddProduct extends HttpServlet {
 
         } catch (NumberFormatException e) {
             e.printStackTrace();
+            response.sendRedirect("error");
         } catch (Exception e) {
             e.printStackTrace();
+            response.sendRedirect("error");
         }
     }
 

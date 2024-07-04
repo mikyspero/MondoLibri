@@ -20,12 +20,12 @@ public class AccessAdminFilter implements Filter {
         HttpSession session = httpRequest.getSession(false);
         Object usernameAttr = session.getAttribute("username");
         if(usernameAttr == null) {
-            httpResponse.sendRedirect(httpRequest.getContextPath() + "/notadmin");
+            httpResponse.sendRedirect(httpRequest.getContextPath() + "/error");
             return;
         }
         String username = usernameAttr.toString();
         if (username == null || !("admin").equals(username)) {
-            httpResponse.sendRedirect(httpRequest.getContextPath() + "/notadmin");
+            httpResponse.sendRedirect(httpRequest.getContextPath() + "/error");
             return;
         }
         chain.doFilter(request, response);

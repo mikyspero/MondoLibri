@@ -48,6 +48,7 @@ public class AdminPanelServlet extends HttpServlet {
             request.getRequestDispatcher("/jsp/privata/admin/admincatalogo.jsp").forward(request, response);
         } catch (jakarta.servlet.ServletException e) {
             e.printStackTrace();
+            response.sendRedirect("error");
         }
     }
 

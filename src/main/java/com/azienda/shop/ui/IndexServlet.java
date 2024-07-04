@@ -59,8 +59,10 @@ public class IndexServlet extends HttpServlet {
 
             request.getRequestDispatcher("/jsp/index.jsp").forward(request, response);
         } catch (ServletException e) {
+            response.sendRedirect("error");
             throw new RuntimeException(e);
         } catch (IOException e) {
+            response.sendRedirect("error");
             throw new RuntimeException(e);
         }
     }

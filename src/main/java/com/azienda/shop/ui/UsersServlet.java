@@ -32,6 +32,7 @@ public class UsersServlet extends HttpServlet {
             request.setAttribute("user", user);
             request.getRequestDispatcher("/jsp/privata/admin/allusers.jsp").forward(request, response);
         } catch (ServiceException e) {
+            response.sendRedirect("error");
             throw new RuntimeException(e);
         }
 

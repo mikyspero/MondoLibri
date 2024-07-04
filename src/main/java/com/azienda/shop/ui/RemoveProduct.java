@@ -41,6 +41,7 @@ public class RemoveProduct extends HttpServlet {
             productService.delete(product);
             request.getRequestDispatcher("admincatalogue").forward(request, response);
         } catch (Exception e) {
+            response.sendRedirect("error");
             e.printStackTrace();
         }
     }

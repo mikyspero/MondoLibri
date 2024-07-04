@@ -174,6 +174,9 @@
                         <div class="card-body text-center">
                             <h5 class="card-title"><%= product.getName() %></h5>
                             <p class="card-text"><%= product.getDescription() %></p>
+                            <p class="card-text"><strong>Genere: </strong><%= product.getGenre() %></p>
+                            <p class="card-text"><strong>Autore: </strong><%= product.getAuthor() %></p>
+                            <p class="card-text"><strong>Lingua: </strong><%= product.getLanguage() %></p>
                             <p class="card-text"><strong>Prezzo: <%= product.getPrice() %> €</strong></p>
                             <% if (accesso) { %>
                             <form action="${pageContext.request.contextPath}/removeproduct" method="POST">

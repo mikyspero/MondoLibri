@@ -57,8 +57,9 @@ public class LoginServlet extends HttpServlet {
 //            request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
 //        }
         } catch (IOException e) {
-
+            response.sendRedirect("error");
         } catch (Exception e){
+            response.sendRedirect("error");
             e.printStackTrace();
         }
     }

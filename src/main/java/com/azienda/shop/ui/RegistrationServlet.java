@@ -50,12 +50,14 @@ public class RegistrationServlet extends HttpServlet {
             userService.register(user);
             HttpSession session = request.getSession();
             session.setAttribute("username", username);
-            response.sendRedirect("index");
+            request.getRequestDispatcher("index").forward(request, response);
 
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
+            response.sendRedirect("error");
         } catch(Exception e){
             e.printStackTrace();
+            response.sendRedirect("error");
         }
     }
 

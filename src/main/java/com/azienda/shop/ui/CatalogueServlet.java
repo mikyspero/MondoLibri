@@ -46,11 +46,13 @@ public class CatalogueServlet extends HttpServlet {
             req.getRequestDispatcher("/jsp/index.jsp").forward(req, resp);
 
         } catch (ServletException e) {
+            resp.sendRedirect("error");
             throw new RuntimeException(e);
         } catch (IOException e) {
+            resp.sendRedirect("error");
             throw new RuntimeException(e);
         } catch (Exception e){
-
+            resp.sendRedirect("error");
         }
     }
 
