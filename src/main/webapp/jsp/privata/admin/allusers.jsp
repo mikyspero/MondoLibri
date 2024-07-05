@@ -17,7 +17,7 @@
 <!-- INIZIO NAVBAR -->
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-        <a class="navbar-brand" href="${pageContext.request.contextPath}/jsp/index.jsp">
+        <a class="navbar-brand" href="${pageContext.request.contextPath}/index">
             <img class="logo" src="${pageContext.request.contextPath}/img/LogoFinito.png" alt="">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
