@@ -55,8 +55,8 @@ Model: Java classes representing entities (User, Product, Order, etc.)
 View: JSP pages for rendering the user interface
 Controller: Servlets handling HTTP requests and responses
 
-Team Members
-[List of team members to be added]
+Thanks
+I wish to thank my team members that worked with me on the version before the fork
 Conclusion
 This project showcases our ability to build a functional e-commerce application using Jakarta EE technologies. It demonstrates our understanding of full-stack Java development, including frontend and backend integration, database management, and implementation of security features.
 We've applied best practices in software development, such as separation of concerns through the MVC pattern, and implemented core functionalities essential to e-commerce applications. This project serves as a comprehensive demonstration of the skills acquired during the Generation Italy Java developer intensive course.
@@ -64,13 +64,3 @@ Inserimento di un nuovo ordine di acquisto
 Recupero degli ordini di acquisto di un utente
 Recupero di tutti gli ordini di acquisto (solo per amministratori) 
 Recupero di statistiche sugli acquisti per ogni prodotto (solo per amministratori)
-
-
-Operazioni di Supporto:
-
-Aggiornamento della disponibilità di un prodotto dopo un acquisto
-Rimozione di un prodotto dai carrelli degli utenti dopo l'eliminazione del prodotto
-
-
-
-Queste operazioni DAO dovranno interagire con il database per eseguire le operazioni CRUD (Create, Read, Update, Delete) sui dati dell'applicazione, come utenti, prodotti, carrelli e ordini di acquisto.
